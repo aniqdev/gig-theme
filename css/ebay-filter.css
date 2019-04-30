@@ -1,0 +1,700 @@
+@keyframes num_scale{
+	0%{transform: scale(1);}
+	50%{transform: scale(1.5);}
+	100%{transform: scale(1);}
+}
+/*  ebay styles */
+.pagecontainer table table[style]{
+	display: none;
+}
+header#gh{
+	min-width: initial;
+	margin-bottom: -15px;
+}
+div.stBadge{
+	min-width: initial;
+}
+div.stBadge>img{
+	display: none;
+}
+/*  /ebay styles */
+#filter_app_here .f-main-bg{
+	color: #fff;
+	background: #1c304b;
+	background: #1c304b url('https://hot-body.net/gig-less/images/main-bg.jpg') center repeat fixed;
+	margin-top: -20px;
+	overflow: hidden;
+}
+
+#filter_app_here .clip{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#filter_app_here .color-white{
+	color: white;
+}
+
+#filter_app_here .color-aqua{
+	color: #34dbe8;
+}
+
+#filter_app_here .bg-dark{
+	background: rgba(17, 32, 56, 0.68);
+}
+
+#filter_app_here .max-w100{
+	max-width: 100%;
+}
+
+#filter_app_here .text-center {
+	text-align: center;
+}
+
+#filter_app_here .pos-rel{
+	position: relative;
+}
+
+#filter_app_here .pos-stat{
+	position: static;
+}
+
+#filter_app_here .f-float-l{
+	float: left;
+}
+
+#filter_app_here .gig-header{
+	padding: 20px 0;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	height: 96px;
+}
+
+#filter_app_here .gig-lang{
+	cursor: pointer;
+	width: 29px;
+	height: 20px;
+	display: inline-block;
+	background: url('https://hot-body.net/gig-less/images/sprite-flags.png') no-repeat;
+	margin: 0 7px;
+}
+
+#filter_app_here .gig-lang1{background-position: 3px    2px;}
+#filter_app_here .gig-lang2{background-position: -39px  2px;}
+#filter_app_here .gig-lang3{background-position: -80px  2px;}
+#filter_app_here .gig-lang4{background-position: -122px 2px;}
+#filter_app_here .gig-lang5{background-position: -162px 2px;}
+
+#filter_app_here .gig-lang.actv{
+	box-shadow: 0 0 15px #32d5e1, inset 0 0 15px #33d3e0;
+}
+
+#filter_app_here .f-full-width-line{
+	border-bottom: 1px solid #35d9e6;
+}
+
+#filter_app_here .f-we-know{
+	margin: 35px 0;
+	font-size: 16px;
+}
+
+#filter_app_here .f-number{
+	font-size: 24px;
+	margin: 70px 0 0;
+}
+
+#filter_app_here .f-number b{
+	font-weight: normal;
+	background: #f89a1e;
+	border-radius: 50%;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 24px;
+	box-shadow: 0 0 0 2px #1a2d4b, 0 0 0 4px #f89a1e;
+	margin-right: 20px;
+}
+
+#filter_app_here .f-right-bg{
+	position: absolute;
+	height: 100%;
+	width: 25%;
+	right: 0;
+}
+
+select.form-control,
+#filter_app_here .multiselect.dropdown-toggle,
+#filter_app_here .f-select{
+	background: #243052;
+	border: 1px solid #34dbe8;
+	border-radius: 50px;
+	color: #fff;
+}
+
+#filter_app_here .f-select{
+	padding: 3px 13px;
+	margin-left: 10px;
+}
+
+#filter_app_here .search-frm .search-sbmt:focus,
+#filter_app_here .f-found-games .f-show:focus,
+#filter_app_here .f-select:focus{
+	outline: none;
+}
+
+#filter_app_here .f-menu{
+	font-size: 0;
+	position: absolute;
+	right: 20px;
+	bottom: 0;
+	display: none;
+}
+
+#filter_app_here .f-menu-item{
+	display: inline-block;
+	font-size: 16px;
+	color: #34dbe8;
+	padding: 10px 50px;
+	border: 1px solid;
+	border-bottom: none;
+	margin-left: -1px;
+}
+
+#filter_app_here .f-menu-item:first-child{
+	border-radius: 18px 0 0 0;
+}
+
+#filter_app_here .f-menu-item:last-child{
+	border-radius: 0 18px 0 0;
+}
+
+#filter_app_here .f-menu-item:hover,
+#filter_app_here .f-menu-item:focus{
+	color: #34dbe8;
+}
+
+#filter_app_here .ui-widget.ui-widget-content{
+	height: 1px;
+	margin-top: 15px;
+}
+
+#filter_app_here .f-amount{
+	background: transparent;
+	border: 1px solid #34dbe8;
+	border-radius: 20px;
+	padding: 5px;
+	text-align: center;
+	width: 80px;
+	max-width: 45%;
+}
+
+#filter_app_here .f-range-row label.f-label1{
+	line-height: 18px;
+}
+
+#filter_app_here .f-range-row{
+	padding-top: 15px;
+}
+
+#filter_app_here .ui-widget.ui-widget-content::before,
+#filter_app_here .ui-widget.ui-widget-content::after{
+	content: '';
+	display: block;
+	position: absolute;
+	height: 8px;
+	width: 2px;
+	background: #c5c5c5;
+	top: -4px;
+}
+
+#filter_app_here .ui-widget.ui-widget-content::before{
+	left: -1px;
+}
+
+#filter_app_here .ui-widget.ui-widget-content::after{
+	right: -1px;
+}
+
+#filter_app_here .ui-widget-content .ui-state-default{
+	border-radius: 50%;
+	background: #31cfdb;
+	background: radial-gradient(ellipse at center, #31cfdb 0%,#228f98 100%);
+	border-color: #216072;
+	top: -9px;
+}
+
+#filter_app_here .ui-widget-content .ui-state-default:focus{outline: none;}
+
+#filter_app_here .ui-widget-content .ui-state-default:hover,
+#filter_app_here .ui-widget-content .ui-state-default:active{
+	background: radial-gradient(ellipse at center, #ea921c 0%,#9c6113 100%);
+	box-shadow: 0 0 0 1px #1a2d4b, 0 0 3px 3px #f89a1e;
+	cursor: pointer;
+}
+
+#filter_app_here .ui-slider-horizontal .ui-slider-range{
+	top: -1px;
+	height: 2px;
+		background: #34dbe8;
+}
+
+#filter_app_here .f-search-header,
+#filter_app_here .f-search-footer{
+	font-size: 18px;
+	padding: 5px;
+	margin-top: 5px;
+}
+
+#filter_app_here .f-sort-by{
+	float: right;
+	color: #fff;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+#filter_app_here .f-result-item{
+	margin: 15px 0;
+	font-size: 16px;
+	display: block;
+	color: #fff;
+}
+
+#filter_app_here .f-result-item:hover,
+#filter_app_here .f-result-item:focus{
+	color: #fff;
+	text-decoration: none;
+	outline: none;
+}
+
+#filter_app_here .f-result-item img{
+	margin: 15px 0 0;
+}
+
+#filter_app_here .f-item-rating{
+	text-align: center;
+	margin: 15px 0;
+	font-size: 16px;
+}
+
+#filter_app_here .f-adv-num,
+#filter_app_here .f-prc-num{
+	font-size: 36px;
+	text-shadow: 0 0 7px;
+	margin: 15px 0;
+}
+
+#filter_app_here .f-adv-num{
+	color: #f89a1e;
+	font-size: 28px;
+}
+
+#filter_app_here .f-prc, .f-adv{
+	margin-top: 17px;
+}
+
+#filter_app_here .f-namval{
+	margin: 17px 0 15px;
+}
+
+#filter_app_here .f-item-title{
+	padding: 7px 15px;
+	font-size: 24px;
+}
+
+#filter_app_here .f-check-platform{
+	margin: 25px -5%;
+	/* margin: 25px -40px; */
+}
+
+#filter_app_here .f-check-platform input{
+	display: none;
+}
+
+#filter_app_here .f-check-platform label{
+	background: url('https://hot-body.net/gig-less/images/filter-platforms.png') no-repeat;
+	display: block;
+	width: 75px;
+	height: 75px;
+	margin: auto;
+	cursor: pointer;
+	/* outline: 1px solid #fbb; */
+}
+
+#filter_app_here .f-check-platform label[for="f-platinp1"]{background-position: -19px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp1"]{background-position: -18px -129px;}
+
+#filter_app_here .f-check-platform label[for="f-platinp2"]{background-position: -150px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp2"]{background-position: -151px -129px;}
+
+#filter_app_here .f-check-platform label[for="f-platinp3"]{background-position: -280px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp3"]{background-position: -279px -129px;}
+
+#filter_app_here .f-check-platform label[for="f-platinp4"]{background-position: -410px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp4"]{background-position: -409px -129px;}
+
+#filter_app_here .f-check-platform label[for="f-platinp5"]{background-position: -540px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp5"]{background-position: -540px -130px;}
+
+#filter_app_here .f-check-platform label[for="f-platinp6"]{background-position: -670px -14px;}
+#filter_app_here .f-check-platform input:checked+label[for="f-platinp6"]{background-position: -669px -129px;}
+
+
+#filter_app_here .f-range-row label{
+	line-height: 32px;
+}
+
+#filter_app_here .multiselect-container{
+	background: #243052;
+	border: 1px solid #889abe;
+	color: #fff;
+}
+
+#filter_app_here .multiselect-container.dropdown-menu>li>a{
+	color: #fff;
+}
+
+#filter_app_here .multiselect-container.dropdown-menu>li>a:hover{
+	color: #333;
+}
+
+#filter_app_here .f-found-games{
+	border: 1px solid #34dbe8;
+	position: absolute;
+	top: 30px;
+	width: 262px;
+	padding: 10px 25px;
+	text-align: center;
+	background: #15253e;
+	z-index: 99;
+	display: none;
+}
+
+#filter_app_here .f-found-games.show{
+	display: block;
+}
+
+#filter_app_here .f-found-games.mfixed{
+	position: fixed;
+}
+
+#filter_app_here .f-found-games .f-corner{
+	width: 16px;
+	height: 16px;
+	transform: rotate(-45deg);
+	position: absolute;
+	top: 19px;
+	left: -9px;
+	border-top: 1px solid #34dbe8;
+	border-left: 1px solid #34dbe8;
+	background: #15253e;
+}
+
+#filter_app_here .f-found-games .f-show{
+	background: linear-gradient(to bottom, rgba(52,219,232,1) 0%,rgba(41,155,164,1) 100%);
+	border: none;
+	padding: 7px 3px;
+	margin: 10px 0;
+	border-radius: 50px;
+	display: inline-block;
+	color: #fff;
+}
+
+#filter_app_here .f-found-games .f-reset-btn{
+	text-decoration: underline;
+	color: #34dbe8;
+	cursor: pointer
+}
+
+#filter_app_here .f-year-label{
+	line-height: 34px;
+	font-weight: normal;
+}
+
+#filter_app_here .f-year-inp{
+	float: right;
+	width: 70%;
+}
+
+#filter_app_here .f-how-many .f-num-res{
+	color: #f89a1e;
+	display: inline-block;
+}
+
+#filter_app_here .f-how-many .f-num-res.scaled{
+	animation: 1s num_scale;
+}
+
+#filter_app_here .search-frm{
+	position: relative;
+	width: 50%;
+	margin: 25px 0 0;
+}
+
+#filter_app_here .search-frm .gig-search{
+	height: 33px;
+	border: 1px solid #34dbe8;
+	padding: 3px 10px;
+	background: rgba(0, 0, 0, 0.12);
+	border-radius: 20px;
+	margin: auto;
+	display: block;
+	width: 100%;
+}
+
+ .search-frm .gig-search:focus{
+	outline: none;
+	border-color: #33d7e3;
+	box-shadow: 0 0 8px #33d7e3;
+}
+
+#filter_app_here .search-frm .search-sbmt{
+	background: url('https://hot-body.net/gig-less/images/search-ico.png') center no-repeat;
+	border: 0;
+	position: absolute;
+	right: 2%;
+	top: 2px;
+	width: 28px;
+	height: 28px;
+}
+
+#filter_app_here .f-res-header{
+	line-height: 30px;
+	margin: 0 10px;
+	font-weight: normal;
+}
+
+#filter_app_here .f-pagination{
+	line-height: 0;
+}
+
+#filter_app_here .f-pagination .pagination{
+	margin: 0;
+}
+
+#filter_app_here .f-pagination a{
+	cursor: pointer;
+	user-select: none;
+}
+
+#filter_app_here .slider-range-tips{
+	position: relative;
+}
+
+#filter_app_here .f-tip{
+	position: absolute;
+	font-weight: normal;
+	top: -16px;
+	font-size: 0.9em;
+}
+
+#filter_app_here .f-tip1{
+	left: -1px;
+}
+
+#filter_app_here .f-tip2{
+	right: -1px;
+}
+
+#filter_app_here .pagination>li>a, .pagination>li>span {
+	color: #ffffff;
+	background-color: #15253e;
+	border: 1px solid #30c6d1;
+}
+
+#filter_app_here .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	color: #ffffff;
+	background-color: #2ba4ad;
+	border-color: #e1a352;
+}
+
+#filter_app_here .btn .caret{
+	position: absolute;
+	right: 6px;
+	top: 47%;
+}
+
+#filter_app_here .f-star{
+	margin-top: 70px;
+}
+
+#filter_app_here .f-bestsales-list{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#filter_app_here .f-bestsales{
+	transition: opacity 0.5s linear;
+}
+
+#filter_app_here .f-bestsales.transpar{
+	opacity: 0.5;
+}
+
+#filter_app_here .f-bestsales a{
+	color: #FFDA81;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 0 10px;
+	display: inline-block;
+	width: 192px;
+	line-height: 44px;
+}
+#filter_app_here .f-bestsales a:link,
+#filter_app_here .f-bestsales a:visited{
+	color: #FFDA81;
+}
+#filter_app_here .f-bestsales a:hover,
+#filter_app_here .f-bestsales a:focus{
+	color: #F9B511;
+}
+
+#filter_app_here .f-bestsales li{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#filter_app_here .f-bestsales img{
+	height: 35px;
+	width: 35px;
+	margin: 7px 0;
+}
+
+#filter_app_here .f-bestsales .top-title-td{
+	width: 85%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1199px) {
+
+	#filter_app_here .f-found-games{
+		width: 212px;
+	}
+	#filter_app_here .f-sort-by {
+		float: none;
+		display: block;
+		clear: both;
+		margin: 37px 0 0 10px;
+	}
+	#filter_app_here .f-amount {
+		padding: 3px;
+		width: 53px;
+	}
+	#filter_app_here .f-bestsales a{
+		width: 143px;	
+	}
+}
+
+@media (max-width: 991px) {
+	#filter_app_here .f-found-games {
+		width: 157.5px;
+	}
+	#filter_app_here .f-found-games button{
+		padding: 7px 15px;
+	}
+	#filter_app_here .f-bestsales a {
+		padding: 0 10px 0 0;
+		width: 123px;
+		line-height: 44px;
+	}
+	#filter_app_here .f-bestsales img {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	#filter_app_here .f-right-bg{
+		display: none;
+	}
+	#filter_app_here .f-logo-side{
+		text-align: center;
+	}
+	#filter_app_here .f-menu {
+		margin: 25px auto -20px;
+		text-align: center;
+		position: static;
+	}
+	#filter_app_here .f-menu-item{
+		font-size: 12px;
+	}
+	#filter_app_here .f-found-games{
+		position: fixed;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+	#filter_app_here .f-found-games .f-show{
+		margin: -5px 0;
+	}
+	#filter_app_here .f-result-item{
+		font-size: 0.8em;
+	}
+	#filter_app_here .f-item-title{
+		font-size: 16px;
+	}
+	#filter_app_here .f-adv-num, .f-prc-num {
+		margin: 0;
+	}
+	#filter_app_here .f-namval {
+		margin: 4px 0 9px;
+	}
+	#filter_app_here .f-menu-item {
+		padding: 10px 0px;
+		width: 33%;
+	}
+	#filter_app_here .slider-range-tips {
+		margin-top: 25px;
+	}
+	#filter_app_here .f-tip {
+		top: -23px;
+	}
+	#filter_app_here .search-frm{
+		width: 100%;
+	}
+	#filter_app_here .f-search-header-top {
+		padding-top: 60px;
+	}
+	#filter_app_here .f-found-games .f-corner{
+		display: none;
+	}
+	#filter_app_here .f-bestsales a {
+		padding: 0 10px;
+		width: initial;
+	}
+	#filter_app_here .f-bestsales img {
+		display: initial;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
