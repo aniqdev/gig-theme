@@ -1532,7 +1532,7 @@ function get_gp_year_select($years = [])
   $options = implode(PHP_EOL, $options);
 
   return '<select class="f-select" onchange="location = this.value;">
-    <option value="?'.$qs_obj->set('release','year')->give().'"'.slctd('release','year').'>year</option>
+    <option value="?'.$qs_obj->set('release','year')->give().'"'.slctd('release','year').'>Jahr</option>
     '.$options.'
   </select>';
 }

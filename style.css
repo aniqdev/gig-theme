@@ -3991,7 +3991,7 @@ body{
 	background-image: url('images/bg-4.jpg');
 	background-position: center top;
 	background-attachment: fixed;
-	font-family: 'PT Sans';
+	/*font-family: 'PT Sans';*/
 }
 
 .text-center{
