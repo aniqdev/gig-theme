@@ -31,7 +31,27 @@ if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
 ?>
 
 <div id="primary" class="content-area content-area-w100p container-fluid">
-	<main id="main" class="site-main" role="main">
+	<main id="main" class="site-main gig-page-genre" role="main">
+		<?php
+		if (isset($_GET['genre']) && $_GET['genre']){
+			$g_post = get_page_by_path( 'genre-'.gig_sanitize($_GET['genre']), ARRAY_A, 'page');
+			echo '<article class="genre-seo">';
+			echo($g_post['post_content']);
+			echo '</article>';
+		}
+		// Start the loop.
+		while ( have_posts() ) : the_post();
+			// Include the page content template.
+			get_template_part( 'template-parts/content-no-title', 'page' );
+
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) {
+				comments_template();
+			}
+
+			// End of the loop.
+		endwhile;
+		?>
 		<?php
 
 		if (isset($_GET['genre']) && $_GET['genre']) {
@@ -92,22 +112,7 @@ if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
 				<?= get_gp_year_select($years); ?>
 		   </div>
 		</div><!-- .f-search-header -->
-		<?php
-		endif;
-		// Start the loop.
-		while ( have_posts() ) : the_post();
-
-			// Include the page content template.
-			get_template_part( 'template-parts/content-no-title', 'page' );
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) {
-				comments_template();
-			}
-
-			// End of the loop.
-		endwhile;
-		?>
+		<?php endif; ?>
 	</main><!-- .site-main -->
 	
 	<?php //get_sidebar( 'content-bottom' ); ?>
