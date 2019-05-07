@@ -102,11 +102,11 @@ if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
 			}
 			?>
 		</div>
-		<div class="f-search-header bg-dark color-aqua clearfix">
-		   <nav class="f-pagination f-float-l">
+		<div class="f-search-header bg-dark color-aqua row clearfix">
+		   <nav class="f-pagination col-sm-4">
 		   		<?= $pagination['html']; ?>
 		   </nav>
-		   <div class="f-sort-by">
+		   <div class="f-sort-by col-sm-8">
 		      sortieren nach: 
 				<?= get_gp_sort_select(); ?>
 				<?= get_gp_year_select($years); ?>

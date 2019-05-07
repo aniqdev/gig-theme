@@ -62,7 +62,7 @@ var for_img = document.all.hg_img;
 $('#many_games_wrapper').on('mouseover', 'a', function() {
 	for_title.innerHTML = this.title;
 	for_price.innerHTML = this.dataset.price;
-	for_img.src = 'http://parser.gig-games.de/steam-images/apps-'+this.dataset.appid+'/header.jpg'
+	for_img.src = '//parser.gig-games.de/steam-images/apps-'+this.dataset.appid+'/header.jpg'
 });
 })(jQuery);
 </script>

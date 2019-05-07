@@ -21,6 +21,25 @@ $home_url = get_home_url();
 $template_directory_uri = get_template_directory_uri();
 ?>
 
+<div id="primary" class="content-area content-area-w100p container-fluid gig-page-filter-wrapper">
+  <main id="main" class="site-main gig-page-filter" role="main">
+    <?php
+    // Start the loop.
+    while ( have_posts() ) : the_post();
+
+      // Include the page content template.
+      get_template_part( 'template-parts/content', 'no-title' );
+
+      // End of the loop.
+    endwhile;
+    ?>
+    <div class="clearfix"></div>
+  </main><!-- .site-main -->
+
+  <?php //get_sidebar( 'content-bottom' ); ?>
+
+</div><!-- .content-area -->
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
