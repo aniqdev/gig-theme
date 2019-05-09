@@ -5006,13 +5006,14 @@ article.type-product>.entry-summary{
 
 .gig-page-genre .status-publish .entry-content,
 #main article.genre-seo,
-.gig-page-filter .entry-content{
+.gig-page-filter .entry-content,
+.page-full-width-main .entry-content{
 	background: rgba(2,17,38,.88);
     padding: 15px;
 }
 
 .gig-page-genre .status-publish{
-  display: none;
+  /*display: none;*/
 }
 
 .gig-page-filter .entry-content{
@@ -5022,6 +5023,10 @@ article.type-product>.entry-summary{
 #content .gig-page-filter-wrapper{
 	float: none;
 	padding: 0;
+}
+
+.aqs-canvas{
+	margin-bottom: 40px;
 }
 
 

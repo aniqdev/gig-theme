@@ -29,7 +29,7 @@ $games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rati
 ?>
 
 <div id="primary" class="content-area content-area-w100p container-fluid">
-	<main id="main" class="site-main" role="main">
+	<main id="main" class="site-main page-full-width-main" role="main">
 		<div class="aqs-canvas row">
 			<div class="col-sm-2"></div>
 			<?php if(!iz_mobile()): ?>
