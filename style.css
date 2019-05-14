@@ -5078,4 +5078,7 @@ article.type-product>.entry-summary{
 	.compare-card .link{
 		width: 100%;
 	}
+	.f-sort-by-words{
+		display: none;
+	}
 }

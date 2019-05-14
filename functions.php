@@ -1577,7 +1577,7 @@ function f_search_header(&$pagination, &$years)
 	   		<?= $pagination['html']; ?>
 	   </nav>
 	   <div class="f-sort-by">
-	      	sortieren nach:
+	      	<span class="f-sort-by-words">sortieren nach:</span>
 			<?= get_gp_sort_select(); ?>
 			<?= get_gp_year_select($years); ?>
 	   </div>

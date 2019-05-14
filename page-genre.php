@@ -82,16 +82,7 @@ if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
 			}
 			?>
 		</div>
-		<div class="f-search-header bg-dark color-aqua row clearfix">
-		   <nav class="f-pagination col-sm-4">
-		   		<?= $pagination['html']; ?>
-		   </nav>
-		   <div class="f-sort-by col-sm-8">
-		      sortieren nach: 
-				<?= get_gp_sort_select(); ?>
-				<?= get_gp_year_select($years); ?>
-		   </div>
-		</div><!-- .f-search-header -->
+		<?php f_search_header($pagination, $years); ?><!-- .f-search-header -->
 		<?php endif; ?>
 		<?php
 		if (isset($_GET['genre']) && $_GET['genre']){
