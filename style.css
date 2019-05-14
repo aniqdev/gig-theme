@@ -5029,6 +5029,36 @@ article.type-product>.entry-summary{
 	margin-bottom: 40px;
 }
 
+#add_payment_method table.cart td, #add_payment_method table.cart th, .woocommerce-cart table.cart td, .woocommerce-cart table.cart th, .woocommerce-checkout table.cart td, .woocommerce-checkout table.cart th {
+    border: 0;
+}
+
+.woocommerce table.woocommerce-cart-form__contents{
+	border-collapse: collapse;
+    border: 0;
+}
+
+tr.woocommerce-cart-form__cart-item{
+	border-top: 1px solid #ccc;
+}
+
+#add_payment_method table.cart img, .woocommerce-cart table.cart img, .woocommerce-checkout table.cart img {
+    width: 120px;
+}
+
+form.woocommerce-cart-form {
+    background: rgba(4, 18, 42, 0.6);
+}
+
+.woocommerce #content table.cart td.actions .input-text, .woocommerce table.cart td.actions .input-text, .woocommerce-page #content table.cart td.actions .input-text, .woocommerce-page table.cart td.actions .input-text {
+    width: 130px;
+    height: 34px;
+}
+
+.woocommerce .cart .button, .woocommerce .cart input.button {
+    height: 34px;
+}
+
 
 
 
