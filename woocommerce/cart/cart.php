@@ -64,6 +64,19 @@ do_action( 'woocommerce_before_cart' ); ?>
 							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() ), $cart_item, $cart_item_key ) );
 						}
 
+						?>
+						<div class="cart-item-editional-text">Auf Lager. Kostenfreier Versand per Ingameübergabe</div>
+						<?php
+
+						// remove link
+						echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
+							'<a href="%s" class="remove-link" aria-label="%s" data-product_id="%s" data-product_sku="%s">'.__('Delete','woocommerce').'</a>',
+							esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
+							__( 'Remove this item', 'woocommerce' ),
+							esc_attr( $product_id ),
+							esc_attr( $_product->get_sku() )
+						), $cart_item_key );
+
 						do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
 
 						// Meta data.
