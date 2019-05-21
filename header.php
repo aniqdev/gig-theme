@@ -16,6 +16,7 @@ global $wpdb2;
 $wpdb2 = new wpdb( db_USER, db_PASS, db_NAME, db_HOST );
 
 $gig_title = wp_get_document_title();
+$gig_json_ld = '';
 $gig_meta_desc = '';
 $gig_rel_canonical = '';
 
@@ -25,7 +26,9 @@ if( is_page( 'game' ) ){
 	$steam_appid = esc_sql( gig_to_steam($_GET['appid']) );
 	$steam_lang  = esc_sql( @$_GET['lang'] ? $_GET['lang'] : 'de' );
 	$steam_game = $wpdb2->get_row( "SELECT * FROM steam_{$steam_lang} WHERE type = '$steam_type' AND appid = '$steam_appid' LIMIT 1", ARRAY_A );
-	$gig_title .= ' | '. $steam_game['title'];
+	$gig_title = get_gig_title($steam_game);
+	$gig_json_ld = get_gig_game_json_ld($steam_game);
+
 
 	$gig_meta_desc = get_gig_meta_desc($steam_game);
 	remove_action( 'wp_head', 'rel_canonical' );
@@ -50,8 +53,9 @@ $template_directory_uri = get_template_directory_uri();
 	<link rel="preload" href="https://gig-games.de/wp-content/themes/gig-theme/css/fonts/flexslider-icon.woff">
 	<?php endif; ?>
 	<title><?= $gig_title; ?></title>
-	<?= $gig_rel_canonical; ?>
+	<?= $gig_json_ld; ?>
 	<?= $gig_meta_desc; ?>
+	<?= $gig_rel_canonical; ?>
 	<?php wp_head(); ?>
 </head>
 

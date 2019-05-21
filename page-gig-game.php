@@ -34,36 +34,10 @@ $steam_pics_type  = esc_sql( ($_GET['type'] === 'dlc') ? 'app' : $_GET['type'] )
 $steam_appid = esc_sql( gig_to_steam($_GET['appid']) );
 $steam_lang  = esc_sql( @$_GET['lang'] ? $_GET['lang'] : 'de' );
 
-// удалить после рескана каталога steam-images
-// $steam_game['pics'] = 'big1.jpg,big2.jpg,big3.jpg,big4.jpg,header-180x84.jpg,header-210x98.jpg,header-256x120.jpg,header-80p.jpg,header.jpg,small1.jpg,small2.jpg,small3.jpg,small4.jpg,thumb-1-m.jpg,thumb-1-s.jpg,thumb-2-m.jpg,thumb-2-s.jpg,thumb-3-m.jpg,thumb-3-s.jpg,thumb-4-m.';
-
-$pics_arr = explode(',', $steam_game['pics']);
-// console_log($pics_arr,1);
-
-$img_dir_path = '//parser.gig-games.de/steam-images/'.$steam_pics_type.'s-'.$steam_appid;
-
-$img_header = $img_dir_path.'/header-80p.jpg';
-$img_header = (in_array('header-80p.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_header.'"></li>' : '';
-$img_header_s = $img_dir_path.'/header-210x98.jpg';
-$img_header_s = (in_array('header-80p.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_header_s.'"></li>' : '';
-
-$img_small1 = $img_dir_path.'/thumb-1-s.jpg';
-$img_small1 = (in_array('thumb-1-s.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_small1.'"></li>' : '';
-$img_small2 = $img_dir_path.'/thumb-2-s.jpg';
-$img_small2 = (in_array('thumb-2-s.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_small2.'"></li>' : '';
-$img_small3 = $img_dir_path.'/thumb-3-s.jpg';
-$img_small3 = (in_array('thumb-3-s.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_small3.'"></li>' : '';
-$img_small4 = $img_dir_path.'/thumb-4-s.jpg';
-$img_small4 = (in_array('thumb-4-s.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_small4.'"></li>' : '';
-
-$img_big1 = $img_dir_path.'/thumb-1-m.jpg';
-$img_big1 = (in_array('thumb-1-m.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_big1.'"></li>' : '';
-$img_big2 = $img_dir_path.'/thumb-2-m.jpg';
-$img_big2 = (in_array('thumb-2-m.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_big2.'"></li>' : '';
-$img_big3 = $img_dir_path.'/thumb-3-m.jpg';
-$img_big3 = (in_array('thumb-3-m.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_big3.'"></li>' : '';
-$img_big4 = $img_dir_path.'/thumb-4-m.jpg';
-$img_big4 = (in_array('thumb-4-m.jpg', $pics_arr)) ? '<li><img class="lazyload" data-src="'.$img_big4.'"></li>' : '';
+$gig_pics = array_map(function($src)
+{
+	return $src ? '<li><img class="lazyload" data-src="'.$src.'"></li>' : '';
+}, get_gig_game_img_urls($steam_game));
 
 $steam_game['desc'] = insert_adv_to_desc($steam_game['desc']);
 
@@ -107,21 +81,21 @@ $template_directory_uri = get_template_directory_uri();
 		<!-- Place somewhere in the <body> of your page -->
 		<figure id="slider" class="flexslider">
 		  <ul class="slides">
-		    <?= $img_header; ?>
-		    <?= $img_big1; ?>
-		    <?= $img_big2; ?>
-		    <?= $img_big3; ?>
-		    <?= $img_big4; ?>
+		    <?= $gig_pics['img_header']; ?>
+		    <?= $gig_pics['img_big1']; ?>
+		    <?= $gig_pics['img_big2']; ?>
+		    <?= $gig_pics['img_big3']; ?>
+		    <?= $gig_pics['img_big4']; ?>
 		    <!-- items mirrored twice, total of 12 -->
 		  </ul>
 		</figure>
 		<div id="carousel" class="flexslider">
 		  <ul class="slides">
-		    <?= $img_header_s; ?>
-		    <?= $img_small1; ?>
-		    <?= $img_small2; ?>
-		    <?= $img_small3; ?>
-		    <?= $img_small4; ?>
+		    <?= $gig_pics['img_header_s']; ?>
+		    <?= $gig_pics['img_small1']; ?>
+		    <?= $gig_pics['img_small2']; ?>
+		    <?= $gig_pics['img_small3']; ?>
+		    <?= $gig_pics['img_small4']; ?>
 		    <!-- items mirrored twice, total of 12 -->
 		  </ul>
 		</div>

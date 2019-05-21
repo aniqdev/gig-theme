@@ -975,13 +975,12 @@ function aqs_ajax_search()
 		{
 			return [
 				'label' => $el['title'],
-				'href' => home_url().'/game/?type='.$el['type'].'&appid='.steam_to_gig($el['appid']),
+				'href' => get_gig_game_link(gig_home_url(), $el),
 			];
 		}, $games),
 	]);
 	wp_die();
 }
-add_action('wp_ajax_aqs_search', 'aqs_ajax_search');
 add_action('wp_ajax_aqs_search', 'aqs_ajax_search');
 
 
@@ -991,7 +990,7 @@ function register_footer_widgets(){
 		'id' => 'footer-widgets',
 		'description' => 'Footer bottom widget panel',
 		'class'         => 'gig-footer-widgets',
-		'before_widget' => '<li class="footer-widget-block">',
+		'before_widget' => '<li class="footer-widget-block col-xs-12 col-sm-5">',
 		'after_widget' => '</li>',
 		'before_title' => '<h2 class="footer-widget-title">',
 		'after_title' => '</h2>',
@@ -1625,3 +1624,73 @@ function game_page_rel_canonical()
 // }
 // 	remove_action( 'wp_loaded', 'rel_canonical',15);
 // 	add_action( 'wp_head', 'game_page_rel_canonical');
+
+function get_gig_title($steam_game)
+{
+	$game_name = htmlentities($steam_game['title']);
+	if ($steam_game['genres']) {
+		$genre = htmlentities(explode(',', $steam_game['genres'])[0]);
+	}else{
+		$genre = '';
+	}
+	return substr("$game_name | $genre | günstig PC-Spiele Vergleich", 0, 70);
+}
+
+function get_gig_game_json_ld(&$game)
+{
+	$images = get_gig_game_img_urls($game);
+return '
+<!-- JSON-LD-Markup generiert von Google Strukturierte Daten: Markup-Hilfe -->
+<script type="application/ld+json">
+{
+	"@context" : "http://schema.org",
+	"@type" : "Product",
+	"name" : "'.htmlentities($game['title']).'",
+	"image" : [ 
+		"'.$images['img_header'].'",
+		"'.$images['img_big1'].'",
+		"'.$images['img_big2'].'",
+		"'.$images['img_big3'].'",
+		"'.$images['img_big4'].'"
+	],
+	"description" : "'.htmlentities(strip_tags($game['desc'])).'",
+	"brand" : {
+		"@type" : "Brand",
+		"name" : "'.htmlentities($game['developer']).'"
+	},
+	"offers" : {
+		"@type" : "Offer",
+	    "price": "'.$game['reg_price'].'",
+	    "priceCurrency": "EUR",
+    	"availability": "https://schema.org/InStock",
+		"url" : "'.get_gig_game_link(gig_home_url(), $game).'"
+	}
+}
+</script>';
+}
+
+
+function get_gig_game_img_urls(&$game)
+{
+	
+	$type  = ($game['type'] === 'dlc') ? 'app' : $game['type'];
+
+	$pics_arr = explode(',', $game['pics']);
+
+	$img_dir_path = '//parser.gig-games.de/steam-images/'.$type.'s-'.$game['appid'];
+
+	return[
+		'img_header'   => (in_array('header-80p.jpg', $pics_arr)) ? $img_dir_path.'/header-80p.jpg' : '',
+		'img_header_s' => (in_array('header-210x98.jpg', $pics_arr)) ? $img_dir_path.'/header-210x98.jpg' : '',
+
+		'img_small1' => (in_array('thumb-1-s.jpg', $pics_arr)) ? $img_dir_path.'/thumb-1-s.jpg' : '',
+		'img_small2' => (in_array('thumb-2-s.jpg', $pics_arr)) ? $img_dir_path.'/thumb-2-s.jpg' : '',
+		'img_small3' => (in_array('thumb-3-s.jpg', $pics_arr)) ? $img_dir_path.'/thumb-3-s.jpg' : '',
+		'img_small4' => (in_array('thumb-4-s.jpg', $pics_arr)) ? $img_dir_path.'/thumb-4-s.jpg' : '',
+
+		'img_big1' => (in_array('thumb-1-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-1-m.jpg' : '',
+		'img_big2' => (in_array('thumb-2-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-2-m.jpg' : '',
+		'img_big3' => (in_array('thumb-3-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-3-m.jpg' : '',
+		'img_big4' => (in_array('thumb-4-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-4-m.jpg' : '',
+	];
+}

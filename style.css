@@ -4003,18 +4003,16 @@ body{
 }
 
 .gig-site-branding .stamp-col{
-	padding: 0px 48px 0 0;
+	padding: 0;
 }
 
 .gig-site-branding .stamp-wrapper{
 	position: relative;
 	display: block;
-	margin-left: -30px;
 }
 
 .stamp-wrapper .stamp-img{
-/* 	left: 2px;
-	top: -2px; */
+	height: 77px;
 }
 
 .stamp-wrapper .stamp-img.stamp-in{
@@ -4930,7 +4928,6 @@ article.type-product>.entry-summary{
 }
 
 .footer-widget-block{
-	width: 40%;
 	line-height: 14px;
 }
 
@@ -5179,6 +5176,15 @@ th.product-quantity{
 }
 
 @media (max-width: 767px) {
+
+	.footer-widget-block{
+		margin-top: 5px;
+		margin-bottom: 40px;
+	}
+	.gig-site-branding .stamp-wrapper {
+	    text-align: right;
+	    padding-right: 15px;
+	}
 
 	.woocommerce-cart-form .coupon{
 		font-size: 0.8em;
