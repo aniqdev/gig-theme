@@ -1643,6 +1643,13 @@ function get_gig_game_json_ld(&$game)
 	$pos = strpos($desc, 'eses Produkt');
 	if(!$pos) $pos = strpos($desc, 'dieses Spiel');
 	if($pos) $desc = trim(substr($desc, $pos + 12));
+	$agreg_rat = ($game['o_reviews']) ? '"aggregateRating": {
+		"@type" : "AggregateRating",
+		"ratingValue" : "'.$game['o_rating'].'",
+		"reviewCount" : "'.$game['o_reviews'].'",
+		"worstRating" : "0",
+		"bestRating" : "100"
+	},' : '';
 return '
 <script type="application/ld+json">
 {
@@ -1662,13 +1669,7 @@ return '
 		"name" : "'.htmlentities($game['developer']).'"
 	},
 	"sku" : "'.$game['id'].'",
-	"aggregateRating": {
-		"@type" : "AggregateRating",
-		"ratingValue" : "'.$game['o_rating'].'",
-		"reviewCount" : "'.$game['o_reviews'].'",
-		"worstRating" : "0",
-		"bestRating" : "100"
-	},
+	'.$agreg_rat.'
 	"offers" : {
 		"@type" : "Offer",
 	    "price": "'.$game['reg_price'].'",
