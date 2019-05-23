@@ -1639,32 +1639,105 @@ function get_gig_title($steam_game)
 function get_gig_game_json_ld(&$game)
 {
 	$images = get_gig_game_img_urls($game);
+	$desc = htmlentities(strip_tags($game['desc']));
+	$pos = strpos($desc, 'eses Produkt');
+	if(!$pos) $pos = strpos($desc, 'dieses Spiel');
+	if($pos) $desc = trim(substr($desc, $pos + 12));
 return '
-<!-- JSON-LD-Markup generiert von Google Strukturierte Daten: Markup-Hilfe -->
 <script type="application/ld+json">
 {
 	"@context" : "http://schema.org",
 	"@type" : "Product",
 	"name" : "'.htmlentities($game['title']).'",
-	"image" : [ 
+	"image" : [
 		"'.$images['img_header'].'",
 		"'.$images['img_big1'].'",
 		"'.$images['img_big2'].'",
 		"'.$images['img_big3'].'",
 		"'.$images['img_big4'].'"
 	],
-	"description" : "'.htmlentities(strip_tags($game['desc'])).'",
+	"description" : "'.$desc.'",
 	"brand" : {
 		"@type" : "Brand",
 		"name" : "'.htmlentities($game['developer']).'"
+	},
+	"sku" : "'.$game['id'].'",
+	"aggregateRating": {
+		"@type" : "AggregateRating",
+		"ratingValue" : "'.$game['o_rating'].'",
+		"reviewCount" : "'.$game['o_reviews'].'",
+		"worstRating" : "0",
+		"bestRating" : "100"
 	},
 	"offers" : {
 		"@type" : "Offer",
 	    "price": "'.$game['reg_price'].'",
 	    "priceCurrency": "EUR",
     	"availability": "https://schema.org/InStock",
-		"url" : "'.get_gig_game_link(gig_home_url(), $game).'"
+		"url" : "'.get_gig_game_link(gig_home_url(), $game).'",
+	    "seller": {
+	      "@type": "Organization",
+	      "name": "'.htmlentities($game['publisher']).'"
+	    }
 	}
+}
+</script>';
+}
+
+
+function get_gig_game_BreadcrumbList_json_ld(&$game)
+{
+	$genre = urlencode(explode(',', $game['genres'])[0]);
+	return '
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Genres",
+    "item": "https://gig-games.de/genres/"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "'.$genre.'",
+    "item": "https://gig-games.de/genres/?genre='.$genre.'"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "Ann Leckie",
+    "item": "'.get_gig_game_link(gig_home_url(), $game).'"
+  }]
+}
+</script>';
+}
+
+function get_gig_game_Logo_json_ld()
+{
+	return '
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "url": "https://gig-games.de",
+  "logo": "https://gig-games.de/images/gig-games-logo.jpg"
+}
+</script>';
+}
+
+function get_gig_game_Social_json_ld()
+{
+	return '
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "gig-games",
+  "url": "https://gig-games.de",
+  "sameAs": [
+    "https://www.facebook.com/giggamessupport/"
+  ]
 }
 </script>';
 }

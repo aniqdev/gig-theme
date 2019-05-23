@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 }
 ?>
 
-<div id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <div class="main-content" role="main">
         <div class='eve-top jarallax'data-jarallax='{"speed": 0.8, "noAndroid": true}'  data-jarallax-video="mp4:<?php echo get_template_directory_uri(); ?>/video/main_video.mp4">
@@ -86,6 +86,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div><!-- .container -->
         </div><!-- eve-bot -->
     </div> <!-- end main-content -->
+
+	<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
 </div><!-- #product-<?php the_ID(); ?> -->
 

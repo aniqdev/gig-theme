@@ -16,7 +16,8 @@ global $wpdb2;
 $wpdb2 = new wpdb( db_USER, db_PASS, db_NAME, db_HOST );
 
 $gig_title = wp_get_document_title();
-$gig_json_ld = '';
+$gig_json_ld = get_gig_game_Logo_json_ld();
+$gig_json_ld .= get_gig_game_Social_json_ld();
 $gig_meta_desc = '';
 $gig_rel_canonical = '';
 
@@ -27,7 +28,8 @@ if( is_page( 'game' ) ){
 	$steam_lang  = esc_sql( @$_GET['lang'] ? $_GET['lang'] : 'de' );
 	$steam_game = $wpdb2->get_row( "SELECT * FROM steam_{$steam_lang} WHERE type = '$steam_type' AND appid = '$steam_appid' LIMIT 1", ARRAY_A );
 	$gig_title = get_gig_title($steam_game);
-	$gig_json_ld = get_gig_game_json_ld($steam_game);
+	$gig_json_ld .= get_gig_game_json_ld($steam_game);
+	$gig_json_ld .= get_gig_game_BreadcrumbList_json_ld($steam_game);
 
 
 	$gig_meta_desc = get_gig_meta_desc($steam_game);
@@ -35,7 +37,7 @@ if( is_page( 'game' ) ){
 	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 	// add_action( 'wp_head', 'game_page_rel_canonical');
 
-	$gig_rel_canonical = '<link rel="canonical" href="' . get_current_url() . '" />'.PHP_EOL;
+	$gig_rel_canonical = '<link rel="canonical" href="' . get_gig_game_link(gig_home_url(), $steam_game) . '" />'.PHP_EOL;
 }
 // sa($_SERVER);
 
@@ -138,7 +140,7 @@ $template_directory_uri = get_template_directory_uri();
 				</form>
 				<div class="col-xs-12 col-sm-4 col-md-3 text-right">
 					<img src="<?= $template_directory_uri; ?>/images/lang-de.png" alt="" class="aqs-lang">
-					<a href="#">
+					<a href="https://www.facebook.com/giggamessupport/">
 						<img src="<?= $template_directory_uri; ?>/images/facebook-icon.png" alt="">
 					</a>
 					<a href="#">
