@@ -114,3 +114,69 @@ jQuery(function($) {
 
 });
 
+
+
+
+jQuery(function($) {
+
+	var gt_mins = document.all.gt_mins
+	var gt_secs = document.all.gt_secs
+	var gt_mics = document.all.gt_mics
+	var start_mins = document.all.gig_timer.dataset.mins
+	var start_secs = document.all.gig_timer.dataset.secs
+	var extra_mins = document.all.gig_timer.dataset.hours * 60
+	var start_time = Date.now()
+	var totalSeconds = +start_secs
+	var mins,secs
+
+	var mics = 999
+	function micsStep() {
+		gt_mics.innerHTML = pad(mics, 3)
+		mics = mics - 13
+		if(mics < 0) mics = 999;
+	}
+	var micsTimerId = setInterval(micsStep, 13)
+
+	function step() {
+		++totalSeconds
+		secs = 59 - (totalSeconds % 60)
+		mins = parseInt(extra_mins + 60 - start_mins - ((totalSeconds+1) / 60))
+		// console.log(mins, secs)
+
+		if(mins === 0 && secs === 0) stop()
+
+		gt_secs.innerHTML = pad(secs, 2)
+		gt_mins.innerHTML = pad(mins, 2)
+
+	}
+	step()
+	var timerId = setInterval(step, 1000)
+
+	function stop() {
+		console.log('stopped')
+		clearInterval(timerId)
+		clearInterval(micsTimerId)
+		gt_mics.innerHTML = '000'
+		$('.gig-timer-clock').addClass('timer-fade')
+		try_to_get_a_key()
+	}
+
+	function try_to_get_a_key() {
+		$.post('http://parser.gig-games.de/ajax-cross.php?action=ajax-gift-keys',
+			{give_me_key:'give_me_key'},
+			function(data) {
+				console.log(data)
+				if (data.success) document.all.gig_timer.innerHTML = 'kostenloser Key grade veröffentlicht<a href="/keys-list/" class="time-link">hier klicken</a>'
+				else setTimeout(try_to_get_a_key, 1000)				
+			},'json')
+	}
+
+	function pad(val, len) {
+	  var valString = val + "";
+	  if (valString.length < len) {
+	    return "0" + valString;
+	  } else {
+	    return valString;
+	  }
+	}
+});

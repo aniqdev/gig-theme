@@ -877,7 +877,8 @@ function comp_ebayPrice(el) {
 }
 
 function comp_steamPrice(el) {
-	if(!+el.reg_price) var price = this.__('kostenlos');
+	if(+el.reg_price == -1) var price = this.__('unbekannt');
+	else if(!+el.reg_price) var price = this.__('kostenlos');
 	else var price = '€'+(+el.reg_price>+el.old_price?el.reg_price:el.old_price);
 	return <div>{this.__('item_steam_price')}: {price}</div>
 }

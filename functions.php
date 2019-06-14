@@ -961,7 +961,18 @@ if (!function_exists('gig_to_steam')){
 	}
 }
 
+function get_hours_dif()
+{
+	$wpdb2 = new wpdb( db_USER, db_PASS, db_NAME, db_HOST );
 
+	$time = time();$dif = 0;
+	$public_date = $wpdb2->get_results( "SELECT public_date FROM gift_keys WHERE public_date < $time ORDER BY id DESC LIMIT 1", ARRAY_A );
+	if ($public_date) {
+		$public_date = $public_date[0]['public_date'];
+		$dif = floor(($time + (2*60*60) - $public_date) / (60*60));
+	}
+	return $dif;
+}
 
 function aqs_ajax_search()
 {
@@ -1151,6 +1162,9 @@ function get_our_price($steam_game)
 		$ret['isset_our_price'] = true;
 	}else{
 		$ret['price'] = '€'.str_replace('.', ',', $steam_game['reg_price']);
+		if ($steam_game['reg_price'] == -1) {
+			$ret['price'] = '<span title="unbekannt" class="dashicons dashicons-lock" style="font-size: 50px;"></span>';
+		}
 		$ret['link'] = 'https://rover.ebay.com/rover/1/707-53477-19255-0/1?icep_id=114&ipn=icep&toolid=20004&campid=5338465470&mpre=https%3A%2F%2Fwww.ebay.de%2Fsch%2FPC-Videospiele%2F1249%2Fi.html%3F_from%3DR40%26_nkw%3D'.rawurlencode($steam_game['title']).'%26_dcat%3D1249%26Plattform%3DPC%26rt%3Dnc%26_trksid%3Dp2045573.m1684';
 		$ret['isset_our_price'] = false;
 	}
@@ -1282,7 +1296,7 @@ function get_img_alt($game)
 	return htmlspecialchars($game['title']).' cd steam key günstig';
 }
 
-function get_gig_meta_desc($game)
+function get_gig_game_meta_desc(&$game)
 {
 	$limit = (150-(strlen($game['title']) + 29));
 
@@ -1294,9 +1308,15 @@ function get_gig_meta_desc($game)
 
 	$description = substr(' '.$description, 0, $limit);
 
-	$meta_description = '<meta name="description" content="Günstige Preise für '.$game['title'].' finden.'.$description.'">';
+	$meta_description = '<meta name="description" content="Günstige Preise für '.$game['title'].' finden.'.$description.'...">';
+	// 'Название игры + preisvergleich pc spiel + computerspiel + steam + текст из описания''
 
 	return $meta_description;
+}
+
+function get_gig_game_meta_keywords(&$game)
+{
+	return '<meta name="keywords" content="'.$game['title'].', steam, pc spiele, computerspiele, günstig, billig, vergleich, preisvergleich, cd key, code">';
 }
 
 
@@ -1643,13 +1663,22 @@ function get_gig_game_json_ld(&$game)
 	$pos = strpos($desc, 'eses Produkt');
 	if(!$pos) $pos = strpos($desc, 'dieses Spiel');
 	if($pos) $desc = trim(substr($desc, $pos + 12));
-	$agreg_rat = ($game['o_reviews']) ? '"aggregateRating": {
-		"@type" : "AggregateRating",
-		"ratingValue" : "'.$game['o_rating'].'",
-		"reviewCount" : "'.$game['o_reviews'].'",
-		"worstRating" : "0",
-		"bestRating" : "100"
-	},' : '';
+	if (($game['o_reviews'])) {
+		$agreg_rat = '"aggregateRating": {
+			"@type" : "AggregateRating",
+			"ratingValue" : "'.$game['o_rating'].'",
+			"reviewCount" : "'.$game['o_reviews'].'",
+			"worstRating" : "0",
+			"bestRating" : "100"
+		},';
+	}else{
+		$agreg_rat = '"aggregateRating": {
+			"@type" : "AggregateRating",
+			"ratingValue" : "'.$game['o_rating'].'",
+			"worstRating" : "0",
+			"bestRating" : "100"
+		},';
+	}
 return '
 <script type="application/ld+json">
 {
@@ -1767,4 +1796,19 @@ function get_gig_game_img_urls(&$game)
 		'img_big3' => (in_array('thumb-3-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-3-m.jpg' : '',
 		'img_big4' => (in_array('thumb-4-m.jpg', $pics_arr)) ? $img_dir_path.'/thumb-4-m.jpg' : '',
 	];
+}
+
+
+function print_stars(&$game)
+{
+	if(!$game['o_reviews']) return '&nbsp;';
+	?>
+	<span class="tP9Zud"> 
+		<span aria-hidden="true"><?= $game['o_rating']; ?>&nbsp;%</span> 
+		<div class="Hk2yDb KsR1A" aria-label="Рейтинг: 4.5 из 5" role="img">
+			<span style="width:<?= $game['o_rating']; ?>%"></span>
+		</div> 
+		<span>(<?= $game['o_reviews']; ?>)</span> 
+	</span>
+<?php
 }

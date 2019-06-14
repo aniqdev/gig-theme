@@ -4444,12 +4444,13 @@ article.type-product>.entry-summary{
 }
 
 .game-card .title{
-	text-align: center;
-	font-size: 18px;
-	font-weight: normal;
-	height: 62px;
-	margin: 8px 0 0;
-	overflow: hidden;
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal;
+    height: 48px;
+    line-height: 24px;
+    margin: 8px 0 0;
+    overflow: hidden;
 }
 
 .game-card .price{
@@ -4532,6 +4533,7 @@ article.type-product>.entry-summary{
 	margin: 0 -15px;
 	padding: 0 15px;
 	height: 28px;
+	    line-height: 30px;
 }
 
 .compare-table .attributes-wrapper{
@@ -5142,6 +5144,88 @@ th.product-quantity{
 	color: #444;
 }
 
+/* reting start */
+.aLF0Z {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.uUPGi {
+    font-size: 14px;
+    line-height: 20px;
+}
+.tP9Zud {
+    display: inline-block;
+}
+.tP9Zud {
+    display: inline-block;
+}
+.Hk2yDb,.Hk2yDb span {
+    width: 65px;
+    height: 15px;
+    display: inline-block;
+    background: repeat-x 0 0;
+    background-size: 13px 15px;
+    font-size: 0
+}
+.Hk2yDb.KsR1A {
+    background-image: url("data:image/svg+xml,\00003csvg width='13px' height='15px' xmlns='http://www.w3.org/2000/svg'>\00003cpath fill='%23d1d1d1' d='m0,7.6l4.7,0,1.5-4.5,1.5,4.5,4.7,0-3.8,2.8,1.5,4.5-3.8-2.8-3.8,2.8,1.5-4.5'/>\00003c/svg>")
+}
+
+.Hk2yDb.KsR1A span {
+    background-image: url("data:image/svg+xml,\00003csvg width='13px' height='15px' xmlns='http://www.w3.org/2000/svg'>\00003cpath fill='%23fabb05' d='m0,7.6l4.7,0,1.5-4.5,1.5,4.5,4.7,0-3.8,2.8,1.5,4.5-3.8-2.8-3.8,2.8,1.5-4.5'/>\00003c/svg>")
+}
+/* rating end */
+
+.title-stars{
+	color: #ccc;
+    font-size: 0.6em;
+}
+
+.game-card .stars{
+	margin-top: 10px;
+    font-size: 0.8em;
+}
+
+.gig-game-title{
+	margin-bottom: 15px;
+}
+
+.gig-timer{
+	border: 1px solid #25c99e;
+    border-radius: 12px;
+    padding: 4px 7px 0;
+    text-align: center;
+    height: 77px;
+    display: block;
+    color: #fff;
+}
+.gig-timer:hover,
+.gig-timer:focus{
+	text-decoration: none;
+	color: #23c299;
+}
+
+.gig-timer-clock{
+    font-size: 42px;
+    font-family: monospace;
+    line-height: 48px
+}
+
+.time-link{
+    margin-top: 11px;
+    display: block;
+}
+
+@keyframes timer-fade{
+	from{opacity: 1;}
+	to{opacity: 0;}
+}
+.gig-timer-clock.timer-fade{
+	animation: 1s timer-fade infinite;
+}
+
+
 
 
 
@@ -5172,7 +5256,6 @@ th.product-quantity{
 	.aqs-slider li:nth-child(n+4){
 		display: none;
 	}
-
 }
 
 @media (max-width: 767px) {

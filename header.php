@@ -20,6 +20,7 @@ $gig_json_ld = get_gig_game_Logo_json_ld();
 $gig_json_ld .= get_gig_game_Social_json_ld();
 $gig_meta_desc = '';
 $gig_rel_canonical = '';
+$gig_meta_keywords = '';
 
 if( is_page( 'game' ) ){
 	global $steam_game;
@@ -32,7 +33,8 @@ if( is_page( 'game' ) ){
 	$gig_json_ld .= get_gig_game_BreadcrumbList_json_ld($steam_game);
 
 
-	$gig_meta_desc = get_gig_meta_desc($steam_game);
+	$gig_meta_desc = get_gig_game_meta_desc($steam_game);
+	$gig_meta_keywords = get_gig_game_meta_keywords($steam_game);
 	remove_action( 'wp_head', 'rel_canonical' );
 	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 	// add_action( 'wp_head', 'game_page_rel_canonical');
@@ -40,7 +42,9 @@ if( is_page( 'game' ) ){
 	$gig_rel_canonical = '<link rel="canonical" href="' . get_gig_game_link(gig_home_url(), $steam_game) . '" />'.PHP_EOL;
 }
 // sa($_SERVER);
-
+if (is_page('genres')) {
+	$gig_title = 'GiG-games | Spielgenre ' . $_GET['genre'];
+}
 
 $home_url = get_home_url();
 $template_directory_uri = get_template_directory_uri();
@@ -57,7 +61,9 @@ $template_directory_uri = get_template_directory_uri();
 	<title><?= $gig_title; ?></title>
 	<?= $gig_json_ld; ?>
 	<?= $gig_meta_desc; ?>
+	<?= $gig_meta_keywords; ?>
 	<?= $gig_rel_canonical; ?>
+	<link rel="preload" as="font" href="https://gig-games.de/wp-content/themes/gig-theme/css/fonts/flexslider-icon.woff">
 	<?php wp_head(); ?>
 </head>
 
@@ -139,12 +145,13 @@ $template_directory_uri = get_template_directory_uri();
 					</div>
 				</form>
 				<div class="col-xs-12 col-sm-4 col-md-3 text-right">
-					<img src="<?= $template_directory_uri; ?>/images/lang-de.png" alt="" class="aqs-lang">
-					<a href="https://www.facebook.com/giggamessupport/">
-						<img src="<?= $template_directory_uri; ?>/images/facebook-icon.png" alt="">
-					</a>
-					<a href="#">
-						<img src="<?= $template_directory_uri; ?>/images/google-icon.png" alt="">
+					<a href="/keys-list/" class="gig-timer" id="gig_timer" data-time="<?= time(); ?>" data-hours="<?= get_hours_dif(); ?>" data-mins="<?= date('i'); ?>" data-secs="<?= date('s'); ?>">
+						<div class="gig-timer-message">
+							nächster Key in
+						</div>
+						<div class="gig-timer-clock">
+							<span id="gt_mins">00</span>:<span id="gt_secs">00</span>:<span id="gt_mics">000</span>
+						</div>
 					</a>
 				</div>
 			</div><!-- .site-header-main -->

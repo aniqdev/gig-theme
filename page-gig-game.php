@@ -73,7 +73,7 @@ $template_directory_uri = get_template_directory_uri();
 	<li><b>></b><?= @$steam_game['title']; ?></li>
 </ul>
 <?php if($steam_game): ?>
-<h1 class="block-mt"><?= $steam_game['title']; ?></h1>
+<h1 class="block-mt gig-game-title"><?= $steam_game['title']; ?> <span class="title-stars"><?= print_stars($steam_game); ?></h1>
 <div class="gig-main-row row">
 	<div class="col-sm-10">
 <div class="row gig-dis-flex">
@@ -223,7 +223,7 @@ jQuery(function($) {
 	<div class="aqs-slider-wrapper" id="aqs_slider_wrapper">
 		<ul class="aqs-slider" id="aqs_slider">
 			<?php foreach ($steam_popular_games as $key => $game): 
-				if ($key === 1 && false) {
+				if (false && $key === 1) {
 					echo '<li><div class="game-card aqs-purple" style="width: 100%; height:262px">';
 				 	google_adv('carousel-1');
 				 	echo '</div></li>';
@@ -235,6 +235,7 @@ jQuery(function($) {
 						<h3 class="title"><?= $game['title']; ?></h3>
 						<div class="price">€<?= $game['price']; ?></div>
 						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
+						<div class="stars"><?php print_stars($game); ?></div>
 					</div>
 				</li>
 			<?php endforeach; ?>
@@ -297,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 					<h3 class="title" title="<?= htmlspecialchars($game['title']); ?>"><?= $game['title']; ?></h3>
 					<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
-					<div class="stars">stars</div>
+					<div class="eclips stars"><?php print_stars($game); ?></div>
 					<div class="eclips">EUR <?= str_replace('.', ',', $game['reg_price']); ?></div>
 					<div class="eclips"><?= ($game['usk_age']) ? $game['usk_age'] : 'Unbekannt';?></div>
 					<div class="eclips" title="<?= htmlspecialchars($game['specs']); ?>"><?= $game['specs']; ?></div>
@@ -337,6 +338,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<li>
 					<div class="game-card aqs-purple">
 						<img class="image lazyload" data-src="//parser.gig-games.de/steam-images/<?= $game['type']; ?>s-<?= $game['appid']; ?>/header-180x84.jpg" alt="<?= get_img_alt($game); ?>" title="<?= htmlspecialchars($game['title']); ?>">
+						<div class="stars"><?php print_stars($game); ?></div>
 						<h3 class="title"><?= $game['title']; ?></h3>
 						<div class="price">€<?= $game['price']; ?></div>
 						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
