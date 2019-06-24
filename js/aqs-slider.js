@@ -129,6 +129,11 @@ jQuery(function($) {
 	var totalSeconds = +start_secs
 	var mins,secs
 
+	if (document.all.gig_timer.dataset.hours === 'no-next-key') {
+		document.all.gig_timer.innerHTML = 'kostenlose  SteamKeys';
+		return;
+	}
+
 	var mics = 999
 	function micsStep() {
 		gt_mics.innerHTML = pad(mics, 3)
@@ -166,8 +171,15 @@ jQuery(function($) {
 			{give_me_key:'give_me_key'},
 			function(data) {
 				console.log(data)
-				if (data.success) document.all.gig_timer.innerHTML = 'kostenloser Key grade veröffentlicht<a href="/keys-list/" class="time-link">hier klicken</a>'
-				else setTimeout(try_to_get_a_key, 1000)				
+				if (data.success){
+					if (location.pathname === "/keys-list/") {
+						location.reload()
+					}else{
+						document.all.gig_timer.innerHTML = 'kostenloser Key grade veröffentlicht<b class="time-link">hier klicken</b>'
+					}
+				}else {
+					setTimeout(try_to_get_a_key, 1000)
+				}		
 			},'json')
 	}
 

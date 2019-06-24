@@ -21,6 +21,7 @@ $gig_json_ld .= get_gig_game_Social_json_ld();
 $gig_meta_desc = '';
 $gig_rel_canonical = '';
 $gig_meta_keywords = '';
+$gig_open_graph = '';
 
 if( is_page( 'game' ) ){
 	global $steam_game;
@@ -39,7 +40,10 @@ if( is_page( 'game' ) ){
 	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 	// add_action( 'wp_head', 'game_page_rel_canonical');
 
-	$gig_rel_canonical = '<link rel="canonical" href="' . get_gig_game_link(gig_home_url(), $steam_game) . '" />'.PHP_EOL;
+	$gig_game_url = get_gig_game_link(gig_home_url(), $steam_game);
+	$gig_rel_canonical = '<link rel="canonical" href="' . $gig_game_url . '" />'.PHP_EOL;
+
+	$gig_open_graph = get_gig_open_graph($steam_game, $gig_game_url, $gig_meta_desc);
 }
 // sa($_SERVER);
 if (is_page('genres')) {
@@ -59,6 +63,7 @@ $template_directory_uri = get_template_directory_uri();
 	<link rel="preload" href="https://gig-games.de/wp-content/themes/gig-theme/css/fonts/flexslider-icon.woff">
 	<?php endif; ?>
 	<title><?= $gig_title; ?></title>
+	<?= $gig_open_graph; ?>
 	<?= $gig_json_ld; ?>
 	<?= $gig_meta_desc; ?>
 	<?= $gig_meta_keywords; ?>
@@ -150,7 +155,7 @@ $template_directory_uri = get_template_directory_uri();
 							nächster Key in
 						</div>
 						<div class="gig-timer-clock">
-							<span id="gt_mins">00</span>:<span id="gt_secs">00</span>:<span id="gt_mics">000</span>
+							<span id="gt_mins">00</span>:<span id="gt_secs">00</span><span class="gig-timer-micros">:<span id="gt_mics">000</span></span>
 						</div>
 					</a>
 				</div>

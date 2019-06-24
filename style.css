@@ -5225,6 +5225,10 @@ th.product-quantity{
 	animation: 1s timer-fade infinite;
 }
 
+.gig-page-keys-list .entry-content{
+	margin-right: 7.6923%;
+	margin-top: 25px;
+}
 
 
 
@@ -5250,6 +5254,9 @@ th.product-quantity{
 	.latest-news {
 		margin: 40px -15px 0;
 	}
+	.gig-timer-micros{
+		font-size: 0.5em;
+	}
 }
 
 @media (max-width: 991px) {
@@ -5259,7 +5266,9 @@ th.product-quantity{
 }
 
 @media (max-width: 767px) {
-
+	.gig-timer-micros{
+		font-size: 1em;
+	}
 	.footer-widget-block{
 		margin-top: 5px;
 		margin-bottom: 40px;

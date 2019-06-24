@@ -965,11 +965,15 @@ function get_hours_dif()
 {
 	$wpdb2 = new wpdb( db_USER, db_PASS, db_NAME, db_HOST );
 
-	$time = time();$dif = 0;
-	$public_date = $wpdb2->get_results( "SELECT public_date FROM gift_keys WHERE public_date < $time ORDER BY id DESC LIMIT 1", ARRAY_A );
+	$time = time();
+	$dif = 0;
+	$public_date = $wpdb2->get_results( "SELECT public_date FROM gift_keys WHERE public_date > $time ORDER BY id ASC LIMIT 1", ARRAY_A );
+	$time += (2*60*60);
 	if ($public_date) {
 		$public_date = $public_date[0]['public_date'];
-		$dif = floor(($time + (2*60*60) - $public_date) / (60*60));
+		$dif = floor((($public_date - $time) + (3*60*60)) / (60*60));
+	}else{
+		$dif = 'no-next-key';
 	}
 	return $dif;
 }
@@ -1812,3 +1816,28 @@ function print_stars(&$game)
 	</span>
 <?php
 }
+
+
+function get_gig_open_graph(&$game, $url, $desc)
+{
+	$description = str_replace('<h2>Über dieses Spiel</h2>', '', $game['desc']);
+	$description = trim(strip_tags($description));
+	$description = substr($description, 0, 250);
+
+	$images = get_gig_game_img_urls($game);
+	$image = 'http:'.str_replace('-80p', '', $images['img_header']);
+
+	// <meta property="fb:app_id"             content="1234567890" />
+	return '
+	<meta property="og:url"                content="'.$url.'" />
+	<meta property="og:type"               content="website" />
+	<meta property="og:title"              content="'.esc_attr($game['title']).'" />
+	<meta property="og:description"        content="'.esc_attr($description).'" />
+	<meta property="og:image"              content="'.$image.'" />
+	<meta property="og:image:width"        content="460" />
+	<meta property="og:image:height"       content="215" />';
+ 
+}
+
+
+

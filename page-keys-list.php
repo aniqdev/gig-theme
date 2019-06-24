@@ -27,14 +27,15 @@ $keys = $wpdb2->get_results("SELECT * FROM gift_keys WHERE public_date < $time O
 <div class="container">
   <?php foreach ($keys as $key_row): ?>
   <div class="row">
-    <div class="col-xs-4"><?= $key_row['key']; ?></div>
-    <div class="col-xs-5" title="<?= $key_row['public_date']; ?>"><?= date('Y-m-d H:i', (string)$key_row['public_date']); ?></div>
+    <div class="col-sm-3"></div>
+    <div class="col-xs-7 col-sm-4"><?= $key_row['key']; ?></div>
+    <div class="col-xs-5 col-sm-4" title="<?= $key_row['public_date']; ?>"><?= date('Y-m-d H:i', (string)$key_row['public_date']); ?></div>
   </div>
   <?php endforeach; ?>
 </div>
 
 <div id="primary" class="content-area content-area-w100p container-fluid">
-  <main id="main" class="site-main gig-page-filter" role="main">
+  <main id="main" class="site-main gig-page-filter gig-page-keys-list" role="main">
     <?php
     // Start the loop.
     while ( have_posts() ) : the_post();
