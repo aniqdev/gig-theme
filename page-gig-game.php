@@ -16,7 +16,7 @@
 get_header();
 
 // if (!$steam_game || get_gig_game_url_title($steam_game['title']) !== $_GET['title']) {
-if (!$steam_game) {
+if (!@$steam_game) {
 	// global $wp_query;
 	// $wp_query->set_404();
 	// status_header(404);
@@ -32,7 +32,7 @@ $home_url = home_url();
 
 $steam_pics_type  = esc_sql( ($_GET['type'] === 'dlc') ? 'app' : $_GET['type'] );
 $steam_appid = esc_sql( gig_to_steam($_GET['appid']) );
-$steam_lang  = esc_sql( @$_GET['lang'] ? $_GET['lang'] : 'de' );
+$steam_lang  = esc_sql( get_gig_lang() );
 
 $gig_pics = array_map(function($src)
 {
@@ -47,7 +47,7 @@ $steam_game = gig_insert_Links($steam_game);
 $steam_popular_games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rating,o_reviews  FROM steam_{$steam_lang} WHERE type = 'app' AND o_reviews > 5 AND reg_price > 0 ORDER BY o_rating DESC LIMIT 10", ARRAY_A ); // 
 
 
-$our_popular_games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rating,o_reviews  FROM steam_{$steam_lang} WHERE type = 'app' AND o_reviews > 5 AND reg_price > 0 AND ebay_id <> '' ORDER BY o_rating DESC LIMIT 10", ARRAY_A ); // 
+$our_popular_games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rating,o_reviews  FROM steam_{$steam_lang} WHERE type = 'app' AND o_reviews > 5 AND reg_price > 0 ORDER BY o_rating DESC LIMIT 10,10", ARRAY_A ); //  AND ebay_id <> ''
 
 
 $and_genres_like = get_genres_like($steam_game['genres']);
@@ -67,7 +67,7 @@ $template_directory_uri = get_template_directory_uri();
 <div id="primary" class="content-area content-area-w100p container-fluid page-gig-game">
 	<main id="main" class="site-main" role="main">
 <ul class="aqs-breadcrumbs">
-	<li><a href="<?= $home_url; ?>">Home</a></li>
+	<li><a href="<?= $home_url; ?>"><?= _e('Home','gig-theme'); ?></a></li>
 	<li><b>></b><a href="<?= $home_url; ?>/gig-games-filter/">games</a></li>
 	<li><b>></b><?= $steam_game['genres_links']; ?></li>
 	<li><b>></b><?= @$steam_game['title']; ?></li>
@@ -104,61 +104,67 @@ $template_directory_uri = get_template_directory_uri();
 		<div class="aqs-purple">
 		<table class="game-specifics">
 			<tr>
-				<td class="l-col">USK-Einstufung:</td>
-				<td class="r-col"><?= ($steam_game['usk_age']) ? $steam_game['usk_age'] : 'Unbekannt';?></td>
+				<td class="l-col"><?= _e('USK-Einstufung:','gig-theme'); ?></td>
+				<td class="r-col"><?= ($steam_game['usk_age']) ? $steam_game['usk_age'] : _e('Unbekannt','gig-theme');?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Spielmodus:</td>
+				<td class="l-col"><?= _e('Spielmodus:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['specs_links']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Downloade Site:</td>
+				<td class="l-col"><?= _e('Downloade Site:','gig-theme'); ?></td>
 				<td class="r-col">store.steampowered.com</td>
 			</tr>
 			<tr>
-				<td class="l-col">Besonderheiten:</td>
-				<td class="r-col">Download-Code</td>
+				<td class="l-col"><?= _e('Besonderheiten:','gig-theme'); ?></td>
+				<td class="r-col"><?= _e('Download-Code','gig-theme'); ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Tags:</td>
+				<td class="l-col"><?= _e('Tags:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['tags_links']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Erscheinungsjahr:</td>
+				<td class="l-col"><?= _e('Erscheinungsjahr:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['year_link']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Plattform:</td>
+				<td class="l-col"><?= _e('Plattform:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['os_links']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Genre:</td>
+				<td class="l-col"><?= _e('Genre:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['genres_links']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Herausgeber:</td>
+				<td class="l-col"><?= _e('Herausgeber:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['publisher_link']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Marke:</td>
+				<td class="l-col"><?= _e('Marke:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['developer_link']; ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Regionalcode:</td>
-				<td class="r-col">Regionalcode-frei</td>
+				<td class="l-col"><?= _e('Regionalcode:','gig-theme'); ?></td>
+				<td class="r-col"><?= _e('Regionalcode-frei','gig-theme'); ?></td>
 			</tr>
 			<tr>
-				<td class="l-col">Language:</td>
+				<td class="l-col"><?= _e('Language:','gig-theme'); ?></td>
 				<td class="r-col"><?= $steam_game['lang_links']; ?></td>
 			</tr>
 			<tr>
+				<?php if($woo_id = is_in_woo($wpdb2, $steam_game['id'])): ?>
+				<td class="woo-buy-btn" colspan="2">
+					<?= do_shortcode("[add_to_cart id='$woo_id']"); ?>
+				</td>
+				<?php else: ?>	
 				<td class="game-price price">
 					<?php $our_price = get_our_price($steam_game); 
 					echo $our_price['price']; ?>
 				</td>
 				<td class="game-link">
-					<a href="<?= $our_price['link']; ?>" target="_blank">ZEIGEN</a>
+					<a href="<?= $our_price['link']; ?>" target="_blank"><?= _e('ZEIGEN','gig-theme'); ?></a>
 				</td>
+				<?php endif; ?>	
 			</tr>
 		</table>
 		</div>
@@ -192,14 +198,14 @@ jQuery(function($) {
 	<input name="gig1" class="giginp1" id="giginp11" checked="" type="radio">
 	<input name="gig1" class="giginp2" id="giginp12" type="radio">
 	<input name="gig1" class="giginp3" id="giginp13" type="radio">
-	<label class="gig-lab1" for="giginp11">Spielbeschreibung</label>
-	<label class="gig-lab2" for="giginp12">Aktivierungsanleitung</label>
-	<label class="gig-lab3" for="giginp13">Systemanforderungen</label>
+	<label class="gig-lab1" for="giginp11"><?= _e('Spielbeschreibung','gig-theme'); ?></label>
+	<label class="gig-lab2" for="giginp12"><?= _e('Aktivierungsanleitung','gig-theme'); ?></label>
+	<label class="gig-lab3" for="giginp13"><?= _e('Systemanforderungen','gig-theme'); ?></label>
 	<div class="gig-tab">
 		<div class="tab1 gig-about-de">
 			<?php // google_adv('game-desc'); ?>
 			<?= $steam_game['desc']; ?><!--about-de-end-->
-			<a class="gig-quelle">Quelle: steampowered</a><!--link-end-->
+			<a class="gig-quelle"><?= _e('Quelle: steampowered','gig-theme'); ?></a><!--link-end-->
 		</div>
 		<div class="tab2">
 			<?= activation_text(); ?>
@@ -219,7 +225,7 @@ jQuery(function($) {
 
 <?php if($steam_popular_games): ?>
 <div class="similar-games block-mt">
-	<h2>Beliebte Spiele</h2>
+	<h2><?= _e('Beliebte Spiele','gig-theme'); ?></h2>
 	<div class="aqs-slider-wrapper" id="aqs_slider_wrapper">
 		<ul class="aqs-slider" id="aqs_slider">
 			<?php foreach ($steam_popular_games as $key => $game): 
@@ -234,7 +240,7 @@ jQuery(function($) {
 						<img class="image lazyload" data-src="//parser.gig-games.de/steam-images/<?= $game['type']; ?>s-<?= $game['appid']; ?>/header-180x84.jpg" alt="<?= get_img_alt($game); ?>" title="<?= htmlspecialchars($game['title']); ?>">
 						<h3 class="title"><?= $game['title']; ?></h3>
 						<div class="price">€<?= $game['price']; ?></div>
-						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
+						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>"><?= _e('ZEIGEN','gig-theme'); ?></a>
 						<div class="stars"><?php print_stars($game); ?></div>
 					</div>
 				</li>
@@ -258,7 +264,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <?php if($similar_games): ?>
 <div class="compare-table-wrapper block-mt">
-<h2>Spielvergleich Mit ähnlichen Produkten vergleichen</h2>
+<h2><?= _e('Spielvergleich Mit ähnlichen Produkten vergleichen','gig-theme'); ?></h2>
 <div class="compare-table aqs-purple">
 	<div class="attributes-wrapper col-xs-4 col-sm-3">
 		<!-- <div class="offset fixed-height"></div> -->
@@ -267,19 +273,19 @@ document.addEventListener("DOMContentLoaded", function() {
 			<button class="aqs-purple" id="aqs_nextt">→</button>
 		</div>
 		<div class="attributes">
-			<div class="eclips">Preis</div>
-			<div class="eclips">USK-Einstufung:</div>
-			<div class="eclips">Spielmodus:</div>
-			<div class="eclips">Downloade Site:</div>
-			<div class="eclips">Besonderheiten:</div>
-			<div class="eclips">Tags:</div>
-			<div class="eclips">Erscheinungsjahr:</div>
-			<div class="eclips">Plattform:</div>
-			<div class="eclips">Genre:</div>
-			<div class="eclips">Herausgeber:</div>
-			<div class="eclips">Marke:</div>
-			<div class="eclips">Regionalcode:</div>
-			<div class="eclips">Language:</div>
+			<div class="eclips"><?= _e('Preis:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('USK-Einstufung:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Spielmodus:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Downloade Site:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Besonderheiten:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Tags:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Erscheinungsjahr:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Plattform:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Genre:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Herausgeber:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Marke:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Regionalcode:','gig-theme'); ?></div>
+			<div class="eclips"><?= _e('Language:','gig-theme'); ?></div>
 		</div>
 	</div>
 	<div class="col-xs-8 col-sm-9">
@@ -297,20 +303,20 @@ document.addEventListener("DOMContentLoaded", function() {
 						<img class="image lazyload" data-src="//parser.gig-games.de/steam-images/<?= $game['type']; ?>s-<?= $game['appid']; ?>/header-256x120.jpg" alt="<?= get_img_alt($game); ?>" title="<?= htmlspecialchars($game['title']); ?>">
 					</div>
 					<h3 class="title" title="<?= htmlspecialchars($game['title']); ?>"><?= $game['title']; ?></h3>
-					<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
+					<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>"><?= _e('ZEIGEN','gig-theme'); ?></a>
 					<div class="eclips stars"><?php print_stars($game); ?></div>
 					<div class="eclips">EUR <?= str_replace('.', ',', $game['reg_price']); ?></div>
 					<div class="eclips"><?= ($game['usk_age']) ? $game['usk_age'] : 'Unbekannt';?></div>
 					<div class="eclips" title="<?= htmlspecialchars($game['specs']); ?>"><?= $game['specs']; ?></div>
 					<div class="eclips">store.steampowered.com</div>
-					<div class="eclips">Download-Code</div>
+					<div class="eclips"><?= _e('Download-Code','gig-theme'); ?></div>
 					<div class="eclips" title="<?= htmlspecialchars($game['tags']); ?>"><?= $game['tags']; ?></div>
 					<div class="eclips"><?= $game['year']; ?></div>
 					<div class="eclips"><?= $game['os']; ?></div>
 					<div class="eclips" title="<?= htmlspecialchars($game['genres']); ?>"><?= $game['genres']; ?></div>
 					<div class="eclips"><?= $game['publisher']; ?></div>
 					<div class="eclips"><?= $game['developer']; ?></div>
-					<div class="eclips">Regionalcode-frei</div>
+					<div class="eclips"><?= _e('Regionalcode-frei','gig-theme'); ?></div>
 					<div class="eclips" title="<?= htmlspecialchars($game['lang']); ?>"><?= $game['lang']; ?></div>
 				</div>
 			<?php endforeach; ?>
@@ -331,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <?php if($our_popular_games): ?>
 <div class="latest-news block-mt"><div class="w1200">
 <div class="similar-games similar-games-bottom block-mt">
-	<h2>Beliebte Spiele</h2>
+	<h2><?= _e('Beliebte Spiele','gig-theme'); ?></h2>
 	<div class="aqs-slider-wrapper" id="aqs_slider_wrapper">
 		<ul class="aqs-slider" id="aqs_slider2">
 			<?php foreach ($our_popular_games as $game): ?>
@@ -341,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						<div class="stars"><?php print_stars($game); ?></div>
 						<h3 class="title"><?= $game['title']; ?></h3>
 						<div class="price">€<?= $game['price']; ?></div>
-						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>">ZEIGEN</a>
+						<a class="link" href="<?= get_gig_game_link($home_url, $game); ?>"><?= _e('ZEIGEN','gig-theme'); ?></a>
 					</div>
 				</li>
 			<?php endforeach; ?>

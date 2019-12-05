@@ -25,9 +25,24 @@
  * @since Twenty Sixteen 1.0
  */
 
-/**
- * Twenty Sixteen only works in WordPress 4.4 or later.
- */
+if(!defined('HOME_URL')) define('HOME_URL', home_url());
+
+function get_gig_lang()
+{
+	// return @$_GET['lang'] ? $_GET['lang'] : 'de' // depricated
+
+	$lang = preg_replace('/.*\/(..)\/.+/', "$1", $_SERVER['REQUEST_URI']);
+
+	if (in_array($lang, ['de','en','fr','es','it','ru'])) {
+		return $lang;
+	}else{
+		return 'de';
+	}
+}
+define('GIG_LANG', get_gig_lang());
+define('GIG_LANG_PREFIX', GIG_LANG !== 'de' ? '-' . GIG_LANG : '');
+
+
 if ( version_compare( $GLOBALS['wp_version'], '4.4-alpha', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
 }
@@ -389,6 +404,8 @@ function twentysixteen_scripts() {
 		'expand'   => __( 'expand child menu', 'twentysixteen' ),
 		'collapse' => __( 'collapse child menu', 'twentysixteen' ),
 	) );
+	
+    wp_enqueue_style( 'dashicons' );
 
 	if(is_front_page()) {
 		wp_enqueue_script( 'tween-light', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenLite.min.js', [], false, true );
@@ -396,7 +413,7 @@ function twentysixteen_scripts() {
 		wp_enqueue_script( 'canvas-experiment', GIG_THEME_URI . '/js/canvas-experiment.js', [], false, true );
 	}
 
-	if(is_page('game')){
+	if(is_page_game()){
 		wp_enqueue_script( 'flexslider', GIG_THEME_URI . '/js/jquery.flexslider.js', [], '2.7.0', true );
 		wp_enqueue_style( 'flexslider', GIG_THEME_URI . '/css/flexslider.css', [], '2.7.0' );
 	}
@@ -795,17 +812,93 @@ function wpdev_170663_remove_parent_theme_stuff() {
 					<li><img src="<?php echo get_template_directory_uri(); ?>/images/contacts/whatsapp.png" alt="watsapp"> +49 157 88453267</li>
 				</ul>
 
-				<script type="text/javascript">(function(w,doc) {
-				if (!w.__utlWdgt ) {
-					w.__utlWdgt = true;
-					var d = doc, s = d.createElement('script'), g = 'getElementsByTagName';
-					s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
-					s.src = ('https:' == w.location.protocol ? 'https' : 'http')  + '://w.uptolike.com/widgets/v1/uptolike.js';
-					var h=d[g]('body')[0];
-					h.appendChild(s);
-				}})(window,document);
+				<div id="gig_eve_share" class="code_alt" code_share="&lt;script type=&quot;text/javascript&quot;&gt;(function(w,doc) {
+                        if (!w.__utlWdgt ) {
+                            w.__utlWdgt = true;
+                            var d = doc, s = d.createElement('script'), g = 'getElementsByTagName';
+                            s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+                            s.src = ('https:' == w.location.protocol ? 'https' : 'http')  + '://w.uptolike.com/widgets/v1/uptolike.js';
+                            var h=d[g]('body')[0];
+                            h.appendChild(s);
+                        }})(window,document);
+                    &lt;/script&gt;
+                    &lt;div data-background-alpha=&quot;0.0&quot; 
+                    data-buttons-color=&quot;#FFFFFF&quot; 
+                    data-counter-background-color=&quot;#ffffff&quot; 
+                    data-share-counter-size=&quot;12&quot; 
+                    data-top-button=&quot;false&quot; 
+                    data-share-counter-type=&quot;separate&quot; 
+                    data-share-style=&quot;1&quot; data-mode=&quot;share&quot; 
+                    data-like-text-enable=&quot;false&quot; 
+                    data-mobile-view=&quot;false&quot; 
+                    data-icon-color=&quot;#ffffff&quot; 
+                    data-orientation=&quot;horizontal&quot; 
+                    data-text-color=&quot;#ffffff&quot; 
+                    data-share-shape=&quot;round-rectangle&quot; 
+                    data-sn-ids=&quot;fb.gp.&quot; 
+                    data-share-size=&quot;30&quot; 
+                    data-background-color=&quot;#ffffff&quot; 
+                    data-preview-mobile=&quot;false&quot; 
+                    data-mobile-sn-ids=&quot;fb.gp.&quot; 
+                    data-pid=&quot;1683037&quot; 
+                    data-counter-background-alpha=&quot;0.0&quot; 
+                    data-following-enable=&quot;false&quot; 
+                    data-exclude-show-more=&quot;true&quot; 
+                    data-selection-enable=&quot;false&quot; 
+                    class=&quot;uptolike-buttons&quot; &gt;&lt;/div&gt;" code_alt="&lt;span class=&quot;switch&quot;&gt;mit Facebook verbunden&lt;/span&gt;">
+					loading...
+				</div>
+				<style>
+/* Switch begin */
+#gig_eve_share{
+	height: 80px;
+	overflow: hidden;
+}
+#gig_eve_share.code_alt{
+	background: url('<?php echo get_template_directory_uri(); ?>/images/fbs.png') -10px 21px no-repeat;
+}
+span.switch {
+    display: inline-block;
+    text-indent: -9999em;
+    background: transparent url('<?php echo get_template_directory_uri(); ?>/images/ssp_sprite.png') no-repeat -70px -40px scroll;
+    width: 23px;
+    height: 12px;
+    overflow: hidden;
+    float: left;
+    margin: 4px 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+span.switch.on {
+    background-position: -70px -52px; 
+}
+/* Switch end */
+				</style>
+				<script>
+(function($) {
+	var facebook_elem = document.getElementsByClassName('utl-icon-num-0');
+	function share_btns_change_title() {
+		if(!document.getElementsByClassName('utl-icon-num-0').length) return;
+		facebook_elem[0] && (facebook_elem[0].title = 'Share on Facebook');
+	}
+
+	var gig_eve_share = $('#gig_eve_share');
+	var code_share = $(gig_eve_share.attr('code_share'));
+	var code_alt   = $(gig_eve_share.attr('code_alt'));
+	gig_eve_share.html(code_alt);
+	gig_eve_share.on('click', '.switch', function () {
+		setInterval(share_btns_change_title, 2000);
+		if ($(this).hasClass('on')) {
+			gig_eve_share.html(code_alt);
+			gig_eve_share.addClass('code_alt');
+		}else{
+			gig_eve_share.append(code_share);
+			gig_eve_share.removeClass('code_alt');
+		}
+		$(this).toggleClass('on');
+	});
+})(jQuery);
 				</script>
-				<div data-background-alpha="0.0" data-buttons-color="#FFFFFF" data-counter-background-color="#ffffff" data-share-counter-size="12" data-top-button="false" data-share-counter-type="separate" data-share-style="1" data-mode="share" data-like-text-enable="false" data-mobile-view="false" data-icon-color="#ffffff" data-orientation="horizontal" data-text-color="#ffffff" data-share-shape="round-rectangle" data-sn-ids="fb.gp." data-share-size="30" data-background-color="#ffffff" data-preview-mobile="false" data-mobile-sn-ids="fb.vk.tw.wh.ok.vb." data-pid="1683037" data-counter-background-alpha="0.0" data-following-enable="false" data-exclude-show-more="true" data-selection-enable="false" class="uptolike-buttons" ></div>
 			</div>
 			<?php
 		}
@@ -871,7 +964,7 @@ function woocommerce_variable_add_to_cart() {
 						<?php //echo implode('/', $value['attributes']);?>
 						<?php echo $value['variation_description'];?>
 					</div>
-					<div class="product__add">
+					<div class="product__add disp-conts">
 						<form action="<?php echo esc_url( $product->add_to_cart_url() ); ?>" method="post" enctype='multipart/form-data' class="variations_form">
 						<input type="hidden" name="variation_id" value="<?php echo $value['variation_id']?>" />
 						<input type="hidden" name="product_id" value="<?php echo esc_attr( $post->ID ); ?>" />
@@ -940,7 +1033,8 @@ function myajax_data()
 {
 	wp_localize_script( 'twentysixteen-script', 'myajax', [
 		'url' => admin_url('admin-ajax.php'),
-		'home_url' => home_url()
+		'home_url' => home_url(),
+		'gig_lang_prefix' => GIG_LANG_PREFIX,
 	]);  
 }
 add_action( 'wp_enqueue_scripts', 'myajax_data', 99 );
@@ -972,6 +1066,7 @@ function get_hours_dif()
 	if ($public_date) {
 		$public_date = $public_date[0]['public_date'];
 		$dif = floor((($public_date - $time) + (3*60*60)) / (60*60));
+		$dif = $dif % 3;
 	}else{
 		$dif = 'no-next-key';
 	}
@@ -1063,30 +1158,30 @@ function gig_insert_Links($game)
 	if(!$game) return $game;
 
 	$game['specs_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?spec='.$el.'">'.$el.'</a>';
+		return '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?spec='.$el.'">'.$el.'</a>';
 	}, explode(',', $game['specs'])));
 
 	$game['tags_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?tag='.$el.'">'.$el.'</a>';
+		return '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?tag='.$el.'">'.$el.'</a>';
 	}, explode(',', $game['tags'])));
 
 	$game['genres_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?genre='.$el.'">'.$el.'</a>';
+		return '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?genre='.$el.'">'.$el.'</a>';
 	}, explode(',', $game['genres'])));
 	
 	$game['lang_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?lang='.$el.'">'.$el.'</a>';
+		return '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?lang='.$el.'">'.$el.'</a>';
 	}, explode(',', $game['lang'])));
 	
 	$game['os_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?os='.$el.'">'.$el.'</a>';
+		return '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?os='.$el.'">'.$el.'</a>';
 	}, explode(',', $game['os'])));
 
-	$game['year_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?release='.$game['year'].'">'.$game['year'].'</a>';
+	$game['year_link'] = '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?release='.$game['year'].'">'.$game['year'].'</a>';
 
-	$game['developer_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?developer='.urlencode($game['developer']).'">'.$game['developer'].'</a>';
+	$game['developer_link'] = '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?developer='.urlencode($game['developer']).'">'.$game['developer'].'</a>';
 
-	$game['publisher_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?publisher='.urlencode($game['publisher']).'">'.$game['publisher'].'</a>';
+	$game['publisher_link'] = '<a href="'.gig_home_url().'/gig-games-filter'.GIG_LANG_PREFIX.'/?publisher='.urlencode($game['publisher']).'">'.$game['publisher'].'</a>';
 
 	return $game;
 }
@@ -1094,41 +1189,13 @@ function gig_insert_Links($game)
 
 function gp_insert_Links($game)
 {
-	if(!$game) return $game;
-
-	$game['specs_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?spec='.$el.'">'.$el.'</a>';
-	}, explode(',', $game['specs'])));
-
-	$game['tags_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?tag='.$el.'">'.$el.'</a>';
-	}, explode(',', $game['tags'])));
-
-	$game['genres_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?genre='.$el.'">'.$el.'</a>';
-	}, explode(',', $game['genres'])));
-	
-	$game['lang_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?lang='.$el.'">'.$el.'</a>';
-	}, explode(',', $game['lang'])));
-	
-	$game['os_links'] = implode(', ', array_map(function($el){
-		return '<a href="'.gig_home_url().'/gig-games-filter/?os='.$el.'">'.$el.'</a>';
-	}, explode(',', $game['os'])));
-
-	$game['year_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?release='.$game['year'].'">'.$game['year'].'</a>';
-
-	$game['developer_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?developer='.urlencode($game['developer']).'">'.$game['developer'].'</a>';
-
-	$game['publisher_link'] = '<a href="'.gig_home_url().'/gig-games-filter/?publisher='.urlencode($game['publisher']).'">'.$game['publisher'].'</a>';
-
-	return $game;
+	return gig_insert_Links($game);
 }
 
 
 function console_log($text='', $print = true)
 {
-    if(!defined('DEV_MODE')) return '';
+    // if(!defined('DEV_MODE')) return '';
 
     $text = '<script>console.log(`'.print_r(esc_sql($text),1).'`)</script>';
 
@@ -1292,7 +1359,7 @@ function get_gig_game_url_title($title)
 
 function get_gig_game_link($home_url, &$steam_game)
 {
-	return $home_url.'/game/?type='.$steam_game['type'].'&appid='.steam_to_gig($steam_game['appid']).'&title='.get_gig_game_url_title($steam_game['title']);
+	return $home_url.'/game'.GIG_LANG_PREFIX.'/?type='.$steam_game['type'].'&appid='.steam_to_gig($steam_game['appid']).'&title='.get_gig_game_url_title($steam_game['title']);
 }
 
 function get_img_alt($game)
@@ -1612,7 +1679,7 @@ function gp_genres_list(&$genres_list)
 {
 	echo '<ul class="gp-genres-list">';
 	foreach ($genres_list as $genre) {
-		echo '<li class="col-xs-12 col-sm-4 col-md-3"><a href="?genre='.$genre['value'].'">'.$genre['value'].'</a></li>';
+		echo '<li class="col-xs-12 col-sm-4 col-md-3"><a class="eclips" title="'.esc_attr($genre['value']).'" href="?genre='.$genre['value'].'">'.$genre['value'].'</a></li>';
 	}
 	echo '</ul>';
 }
@@ -1839,5 +1906,168 @@ function get_gig_open_graph(&$game, $url, $desc)
  
 }
 
+function is_page_game()
+{
+	if(is_page('game')) return true;
+	if(is_page('game-de')) return true;
+	if(is_page('game-ru')) return true;
+	if(is_page('game-en')) return true;
+	return false;
+}
 
 
+function langs_cork()
+{
+	return '<li class="lang-item lang-item-59 lang-item-de lang-item-first current-lang"><a lang="de-DE" hreflang="de-DE" href="https://gig-games.de/cart/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGzSURBVHjaYvTxcWb4+53h3z8GZpZff/79+v3n/7/fDAz/GHAAgABi+f37e3FxOZD1Dwz+/v3z9y+E/AMFv3//+Qumfv9et241QACxMDExAVWfOHkJJAEW/gUEP0EQDn78+AHE/gFOQJUAAcQiy8Ag8O+fLFj1n1+/QDp+/gQioK7fP378+vkDqOH39x9A/RJ/gE5lAAhAYhzcAACCQBDkgRXRjP034R0IaDTZTFZn0DItot37S94KLOINerEcI7aKHAHE8v/3r/9//zIA1f36/R+o4tevf1ANYNVA9P07RD9IJQMDQACxADHD3z8Ig4GMHz+AqqHagKp//fwLVA0U//v7LwMDQACx/LZiYFD7/5/53/+///79BqK/EMZ/UPACSYa/v/8DyX9A0oTxx2EGgABi+a/H8F/m339BoCoQ+g8kgRaCQvgPJJiBYmAuw39hxn+uDAABxMLwi+E/0PusRkwMvxhBGoDkH4b/v/+D2EDyz///QB1/QLb8+sP0lQEggFh+vGXYM2/SP6A2Zoaf30Ex/J+PgekHwz9gQDAz/P0FYrAyMfz7wcDAzPDtFwNAgAEAd3SIyRitX1gAAAAASUVORK5CYII=" title="Deutsch" alt="Deutsch" width="16" height="11"></a></li>
+	<li class="lang-item lang-item-63 lang-item-ru no-translation"><a lang="ru-RU" hreflang="ru-RU" href="https://gig-games.de/ru/main-2019-ru/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE2SURBVHjaYvz69T8DAvz79w9CQVj/0MCffwwAAcQClObiAin6/x+okxHMgPCAbOb//5n+I4EXL74ABBALxGSwagTjPzbAyMgItAQggBg9Pf9nZPx//x7kjL9////9C2QAyf9//qCQQCQkxFhY+BEggFi2b/+nq8v46BEDSPQ3w+8//3//BqFfv9BJeXmQEwACCOSkP38YgHy4Bog0RN0vIOMXVOTPH6Cv/gEEEEgDxFKgHEgDXCmGDUAE1AAQQCybGZg1f/d8//XsH0jTn3+///z79RtE/v4NZfz68xfI/vOX+4/0ZoZFAAHE4gYMvD+3/v2+h91wCANo9Z+/jH9VxBkYAAKIBRg9TL//MEhKAuWAogxgZzGC2CCfgUggAoYdGAEVAwQQ41egu5AQAyoXTQoIAAIMAD+JZR7YOGEWAAAAAElFTkSuQmCC" title="Русский" alt="Русский" width="16" height="11"></a></li>
+	<li class="lang-item lang-item-76 lang-item-en no-translation"><a lang="en-US" hreflang="en-US" href="https://gig-games.de/en/main-2019-en/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAflJREFUeNpinDRzn5qN3uFDt16+YWBg+Pv339+KGN0rbVP+//2rW5tf0Hfy/2+mr99+yKpyOl3Ydt8njEWIn8f9zj639NC7j78eP//8739GVUUhNUNuhl8//ysKeZrJ/v7z10Zb2PTQTIY1XZO2Xmfad+f7XgkXxuUrVB6cjPVXef78JyMjA8PFuwyX7gAZj97+T2e9o3d4BWNp84K1NzubTjAB3fH0+fv6N3qP/ir9bW6ozNQCijB8/8zw/TuQ7r4/ndvN5mZgkpPXiis3Pv34+ZPh5t23//79Rwehof/9/NDEgMrOXHvJcrllgpoRN8PFOwy/fzP8+gUlgZI/f/5xcPj/69e/37//AUX+/mXRkN555gsOG2xt/5hZQMwF4r9///75++f3nz8nr75gSms82jfvQnT6zqvXPjC8e/srJQHo9P9fvwNtAHmG4f8zZ6dDc3bIyM2LTNlsbtfM9OPHH3FhtqUz3eXX9H+cOy9ZMB2o6t/Pn0DHMPz/b+2wXGTvPlPGFxdcD+mZyjP8+8MUE6sa7a/xo6Pykn1s4zdzIZ6///8zMGpKM2pKAB0jqy4UE7/msKat6Jw5mafrsxNtWZ6/fjvNLW29qv25pQd///n+5+/fxDDVbcc//P/zx/36m5Ub9zL8+7t66yEROcHK7q5bldMBAgwADcRBCuVLfoEAAAAASUVORK5CYII=" title="English" alt="English" width="16" height="11"></a></li>';
+}
+
+
+function gig_lang_switcher()
+{
+	if(defined('DEV_MODE')) return langs_cork();
+
+	if(!function_exists('pll_the_languages')) return '';
+	$switcher = pll_the_languages([
+		'echo' => 0,
+		'show_flags' => 1,
+		'show_names' => 0,
+		//'display_names_as' => 'slug', // 'name' or 'slug'
+	]);
+
+	if ($_SERVER['QUERY_STRING']) {
+		$switcher = str_replace('/">', '/?'.$_SERVER['QUERY_STRING'].'">', $switcher);
+	}
+
+	return $switcher;
+}
+
+function pf_get_steam_table()
+{
+	return 'steam_' . GIG_LANG;
+}
+
+
+
+function get_eve_open_graph()
+{
+	$the_title = trim(get_the_title());
+	$url = '';
+	$title = '';
+	$description = '';
+	$image = '';
+
+	if ($the_title === 'ISK') {
+		$url = 'https://gig-games.de/shop/mmorpg/eveonline-isk/';
+		$title = 'EVE Online Währung ISK günstig kaufen';
+		$description = 'ISK ist die virtuelle Währung in Eve Online. Wenn man genügend davon auf seinem Spielkonto hat, kann man das Leben in EVE um einiges leichter machen. Für die meisten wirtschaftlichen Transaktionen braucht man ISK. Sei es Kauf von Schiffen, Waffen, zahlreichen Spielgegenstände oder sogar Charaktere.';
+		$image = 'https://gig-games.de/wp-content/uploads/2015/01/isk.png';
+	}elseif($the_title === 'PLEX'){
+		$url = 'https://gig-games.de/shop/mmorpg/eveonline-plex/';
+		$title = 'EVE Online PLEX günstig kaufen, Abonnement verlängern';
+		$description = 'Plex – Spielgegenstand, den man für die Abonnementverlängerung (500 für 30 Tage) verwenden kann. Außerdem werden Plexkarten im Spiel gehandelt und können  ca. 2,4 – 2,6 Millionen ISK kosten.';
+		$image = 'https://gig-games.de/wp-content/uploads/2017/04/plex-1.png';
+	}elseif($the_title === 'Injector'){
+		$url = 'https://gig-games.de/shop/mmorpg/eve-online-skill-injector/';
+		$title = 'EVE Online Large Skill-Injector günstig kaufen';
+		$description = 'Skill Injector, kann man zur Verbesserung eines EVE Online Charakters anwenden. Außerdem werden Skill Injectors im Spiel gehandelt und kosten je Stück ca. 630-650 Millionen ISK.';
+		$image = 'https://gig-games.de/wp-content/uploads/2017/04/skill-injector-2.png';
+	}
+
+	// console_log('=========');
+	// console_log($the_title);
+	// console_log('=========');
+
+	// <meta property="fb:app_id"             content="1234567890" />
+	return '
+	<meta property="og:url"                content="'.$url.'" />
+	<meta property="og:type"               content="product" />
+	<meta property="og:title"              content="'.esc_attr($title).'" />
+	<meta property="og:description"        content="'.esc_attr($description).'" />
+	<meta property="og:image"              content="'.$image.'" />
+	<meta property="og:image:width"        content="320" />
+	<meta property="og:image:height"       content="350" />';
+ 
+}
+
+
+function is_in_woo($wpdb2, $steam_de_id)
+{
+	return false; // отключена возможность добавления товара в корзину
+	$res = $wpdb2->get_results( "SELECT woo_id FROM games WHERE woo_id <> '' AND steam_link = (select link from steam_de where id = '$steam_de_id' LIMIT 1) LIMIT 1", ARRAY_A );
+	// sa($res);
+	if (isset($res[0]['woo_id'])) {
+		return $res[0]['woo_id'];
+	}else{
+		return false;
+	}
+}
+
+
+// Utility function that check if coupon exist
+function does_coupon_exist( $coupon_code ) {
+    global $wpdb;
+
+    $value = $wpdb->get_var( "
+        SELECT ID
+        FROM {$wpdb->prefix}posts
+        WHERE post_type = 'shop_coupon'
+        AND post_name = '".strtolower($coupon_code)."'
+        AND post_status = 'publish';
+    ");
+
+    return $value > 0 ? true : false;
+}
+
+
+function coupon_code_generation( $order_id, $coupon_code ){
+
+    // Check that coupon code not exists
+    if( ! does_coupon_exist( $coupon_code ) ) {
+
+        if (filter_var(trim($order_id), FILTER_VALIDATE_EMAIL)) {
+        	$customer_email = [ trim($order_id) ];
+        }else{
+	        // Get the instance of the WC_Order object
+	        $order = wc_get_order( $order_id );
+	        // Customer billing email
+        	$customer_email = [ $order->get_billing_email() ]; 
+        }
+
+        ## --- Coupon settings --- ##
+        $discount_type  = 'percent'; // Type
+        $coupon_amount  = '10'; // Amount
+        $product_categories_names = [];
+        $date_expires = '2019-07-31';
+
+        // Convert to term IDs
+        $term_ids = array();
+        foreach( $product_categories_names as $term_name ) {
+            if ( term_exists( $term_name, 'product_cat' ) )
+                $term_ids[] = get_term_by( 'name', $term_name, 'product_cat' )->term_id;
+        }
+
+        ## --- Coupon settings --- ##
+
+
+        // Get a new instance of the WC_Coupon object
+        $coupon = new WC_Coupon();
+        // Set the necessary coupon data
+        $coupon->set_code( $coupon_code );
+        $coupon->set_discount_type( $discount_type );
+        $coupon->set_amount( $coupon_amount );
+        if( is_array($term_ids) && sizeof($term_ids) > 0 )
+            $coupon->set_product_categories( $term_ids );
+        $coupon->set_email_restrictions( $customer_email );
+        $coupon->set_individual_use( true );
+        $coupon->set_usage_limit( 1 );
+        $coupon->set_usage_limit_per_user( 1 );
+        $coupon->set_limit_usage_to_x_items( 1 );
+        $coupon->set_date_expires( date( "Y-m-d H:i:s", strtotime($date_expires) ) );
+
+        // Save the data
+        $post_id = $coupon->save();
+    }
+    return isset($post_id) && $post_id > 0;
+}

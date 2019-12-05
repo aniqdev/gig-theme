@@ -21,11 +21,8 @@ get_header(); ?>
 if( ! empty($wpdb2->error) )
 	wp_die( $wpdb2->error );
 
-$games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rating,o_reviews  FROM steam_de WHERE type = 'app' AND o_reviews > 5  ORDER BY o_rating DESC LIMIT 5000", ARRAY_A ); // AND reg_price > 0
 
-// echo "<pre>";
-// print_r($results);
-// echo "</pre>";
+
 ?>
 
 <div id="primary" class="content-area content-area-w100p container-fluid">
@@ -37,6 +34,7 @@ $games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rati
 				<div class="animation-wrapper-3">
 				    <canvas id="animation-visual-canvas-3"></canvas>
 				    <?php
+$games = $wpdb2->get_results( "SELECT type,appid,title,reg_price as price,o_rating,o_reviews  FROM steam_de WHERE type = 'app' AND o_reviews > 5  ORDER BY o_rating DESC LIMIT 5000", ARRAY_A ); // AND reg_price > 0
 $home_url = home_url();
 foreach ($games as $game) {
 	$gig_game_link = get_gig_game_link($home_url, $game);

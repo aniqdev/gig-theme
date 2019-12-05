@@ -128,9 +128,11 @@ jQuery(function($) {
 	var start_time = Date.now()
 	var totalSeconds = +start_secs
 	var mins,secs
+	var phrase_freekeys = document.all.gig_timer.dataset.freekeys
+	var phrase_klickhere = document.all.gig_timer.dataset.klickhere
 
 	if (document.all.gig_timer.dataset.hours === 'no-next-key') {
-		document.all.gig_timer.innerHTML = 'kostenlose  SteamKeys';
+		document.all.gig_timer.innerHTML = phrase_freekeys;
 		return;
 	}
 
@@ -167,7 +169,7 @@ jQuery(function($) {
 	}
 
 	function try_to_get_a_key() {
-		$.post('http://parser.gig-games.de/ajax-cross.php?action=ajax-gift-keys',
+		$.post('https://parser.gig-games.de/ajax-cross.php?action=ajax-gift-keys',
 			{give_me_key:'give_me_key'},
 			function(data) {
 				console.log(data)
@@ -175,7 +177,7 @@ jQuery(function($) {
 					if (location.pathname === "/keys-list/") {
 						location.reload()
 					}else{
-						document.all.gig_timer.innerHTML = 'kostenloser Key grade veröffentlicht<b class="time-link">hier klicken</b>'
+						document.all.gig_timer.innerHTML = phrase_klickhere
 					}
 				}else {
 					setTimeout(try_to_get_a_key, 1000)

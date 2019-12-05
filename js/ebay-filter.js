@@ -292,6 +292,10 @@ var FilterApp = React.createClass({
 
 	var F_this = this;
 
+	if (document.all.filter_app_here && document.all.filter_app_here.dataset.steamtable) {
+		send.steam_table = document.all.filter_app_here.dataset.steamtable;
+	}
+
 	$.post(ajax_url,
 		{action:'get_translations', for:'gig-games'},
 		function(data) {
@@ -836,7 +840,7 @@ ReactDOM.render(React.createElement(FilterApp, null), document.getElementById('f
 function comp_resultItem(el,i){
 	var appsub = (el.type === 'dlc') ? 'app' : el.type;
 	return (
-		<a onClick={this.gameClick.bind(this, el.ebay_id, el.title)} href={myajax.home_url+'/game/?type='+el.type+'&appid='+steam_to_gig(el.appid)+'&title='+el.slug} className="row f-result-item bg-dark">
+		<a onClick={this.gameClick.bind(this, el.ebay_id, el.title)} href={myajax.home_url+'/game'+myajax.gig_lang_prefix+'/?type='+el.type+'&appid='+steam_to_gig(el.appid)+'&title='+el.slug} className="row f-result-item bg-dark">
 			<div className="col-xs-3">
 				<img className="max-w100" alt="" src={'http://parser.gig-games.de/steam-images/'+appsub+'s-'+el.appid+'/header.jpg'}/>
 				<div className="f-item-rating">{this.__('item_rating')}: <span className="color-aqua">{el.o_rating}/100</span></div>

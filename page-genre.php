@@ -17,13 +17,12 @@ remove_action( 'wp_head', 'rel_canonical' );
 remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 add_action( 'wp_head', 'game_page_rel_canonical');
 
-get_header(); ?>
+get_header();
 
-<?php
 
 // если не удалось подключиться, и нужно оборвать PHP с сообщением об этой ошибке
 if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
-
+$steam_table = esc_sql('steam_'.get_gig_lang());
 
 // echo "<pre>";
 // print_r($results);
@@ -40,15 +39,15 @@ if( ! empty($wpdb2->error) ) wp_die( $wpdb2->error );
 				$release = esc_sql( (int)$_GET['release'] );
 				$and_year = "AND year = '$release'";
 			}else{$and_year = '';}
-			$count = $wpdb2->get_var( "SELECT count(*) FROM steam_de WHERE type = 'app' AND o_reviews > 5 AND genres LIKE '%$genre%' $and_year" );
+			$count = $wpdb2->get_var( "SELECT count(*) FROM $steam_table WHERE type = 'app' AND o_reviews > 5 AND genres LIKE '%$genre%' $and_year" );
 			// sa($count);
-			$pagination = aqs_pagination('steam_de', $count);
+			$pagination = aqs_pagination($steam_table, $count);
 			$order_by = get_gp_order();
-			$games = $wpdb2->get_results( "SELECT * FROM steam_de WHERE type = 'app' AND o_reviews > 5 AND genres LIKE '%$genre%' $and_year $order_by LIMIT $pagination[limit]", ARRAY_A );
-			$years = $wpdb2->get_col( "SELECT year FROM steam_de WHERE type = 'app' AND year > 1000 AND o_reviews > 5 AND genres LIKE '%$genre%' GROUP BY year LIMIT 5000" );
+			$games = $wpdb2->get_results( "SELECT * FROM $steam_table WHERE type = 'app' AND o_reviews > 5 AND genres LIKE '%$genre%' $and_year $order_by LIMIT $pagination[limit]", ARRAY_A );
+			$years = $wpdb2->get_col( "SELECT year FROM $steam_table WHERE type = 'app' AND year > 1000 AND o_reviews > 5 AND genres LIKE '%$genre%' GROUP BY year LIMIT 5000" );
 		}else{
 			$games = [];
-			$genres_list = $wpdb2->get_results( "SELECT * FROM filter_values WHERE steam_table = 'steam_de' AND name = 'genres' ORDER BY count DESC", ARRAY_A );
+			$genres_list = $wpdb2->get_results( "SELECT * FROM filter_values_all WHERE steam_table = '$steam_table' AND name = 'genres' ORDER BY count DESC", ARRAY_A );
 		}
 		?>
 		<?php 

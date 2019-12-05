@@ -28,7 +28,7 @@ $template_directory_uri = get_template_directory_uri();
 <link rel="stylesheet" href="<?= $template_directory_uri; ?>/css/ebay-filter.css">
 
 
-<div class="gig-filter" id="filter_app_here"></div>
+<div class="gig-filter" id="filter_app_here" data-steamtable="<?= pf_get_steam_table()?>"></div>
 
 
 <script>
@@ -42,7 +42,7 @@ for(var crs="src",
     scriptURL+'react.min.js',
     scriptURL+'react-dom.min.js',
     scriptURL+'babel.min.js',
-    scriptURL+'ebay-filter.js?v=1.26']
+    scriptURL+'ebay-filter.js?v=1.30']
    ,i=0;i<=load_scr.length-1;i++){
    		if(i === load_scr.length-1)document.write("<script type='text/babel' "+crs+"="+load_scr[i]+">\x3c/script>");
    		else document.write("<script type='text/javascript' "+crs+"="+load_scr[i]+">\x3c/script>");

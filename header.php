@@ -23,12 +23,13 @@ $gig_rel_canonical = '';
 $gig_meta_keywords = '';
 $gig_open_graph = '';
 
-if( is_page( 'game' ) ){
+if( is_page_game() ){
 	global $steam_game;
 	$steam_type  = esc_sql( $_GET['type'] );
 	$steam_appid = esc_sql( gig_to_steam($_GET['appid']) );
-	$steam_lang  = esc_sql( @$_GET['lang'] ? $_GET['lang'] : 'de' );
+	$steam_lang  = esc_sql( get_gig_lang() );
 	$steam_game = $wpdb2->get_row( "SELECT * FROM steam_{$steam_lang} WHERE type = '$steam_type' AND appid = '$steam_appid' LIMIT 1", ARRAY_A );
+	// console_log("SELECT * FROM steam_{$steam_lang} WHERE type = '$steam_type' AND appid = '$steam_appid' LIMIT 1");
 	$gig_title = get_gig_title($steam_game);
 	$gig_json_ld .= get_gig_game_json_ld($steam_game);
 	$gig_json_ld .= get_gig_game_BreadcrumbList_json_ld($steam_game);
@@ -63,6 +64,7 @@ $template_directory_uri = get_template_directory_uri();
 	<link rel="preload" href="https://gig-games.de/wp-content/themes/gig-theme/css/fonts/flexslider-icon.woff">
 	<?php endif; ?>
 	<title><?= $gig_title; ?></title>
+	<?php if(is_eve_page()) echo get_eve_open_graph(); ?>
 	<?= $gig_open_graph; ?>
 	<?= $gig_json_ld; ?>
 	<?= $gig_meta_desc; ?>
@@ -128,14 +130,17 @@ $template_directory_uri = get_template_directory_uri();
 			<div class="gig-site-header-main row" id="aqs_search_form_wrapper">
 				<div class="col-xs-12 col-sm-4 col-md-3 gig-site-branding">
 					<div class="row">
-						<a href="<?= $home_url; ?>" class="col-xs-8">
-							<img src="<?= $template_directory_uri; ?>/images/eve-logo.png" alt="gig-eve-logo">
+						<a href="<?= $home_url; ?>" class="col-xs-4 col-sm-8">
+							<img class="gig-games-logo" src="<?= $template_directory_uri; ?>/images/eve-logo.png" alt="gig-eve-logo">
 						</a>
-						<div class="col-xs-4 stamp-col">
+						<div class="col-xs-4 col-sm-4 stamp-col">
 							<a href="https://app.trustami.com/trustami-card/57cc6402cc96c5b9048b4616" class="stamp-wrapper" target="_blank">
 								<img class="stamp-img stamp-in" src="https://gig-games.de/wp-content/themes/material/images/stamp-in.png" alt="Gig Games">
 								<img class="stamp-img stamp-out" src="https://gig-games.de/wp-content/themes/material/images/stamp-out.png" alt="Gig Games">
 							</a>
+						</div>
+						<div class="col-xs-4 gig-stamp-text">
+							18000 <br> seit 2004
 						</div>
 					</div>
 				</div><!-- .site-branding -->
@@ -150,29 +155,39 @@ $template_directory_uri = get_template_directory_uri();
 					</div>
 				</form>
 				<div class="col-xs-12 col-sm-4 col-md-3 text-right">
-					<a href="/keys-list/" class="gig-timer" id="gig_timer" data-time="<?= time(); ?>" data-hours="<?= get_hours_dif(); ?>" data-mins="<?= date('i'); ?>" data-secs="<?= date('s'); ?>">
+					<ul class="gig-switcher gig-switcher-header"><?= gig_lang_switcher(); ?></ul>
+					<a href="/keys-list/" class="gig-timer" id="gig_timer" data-time="<?= time(); ?>" data-hours="<?= get_hours_dif(); ?>" data-mins="<?= date('i'); ?>" data-secs="<?= date('s'); ?>" data-klickhere="<?= esc_attr__('klick here to get a key','gig-theme'); ?>" data-freekeys="<?= esc_attr__('free steam keys','gig-theme'); ?>">
 						<div class="gig-timer-message">
-							nächster Key in
+							<?= __('next key in', 'gig-theme'); ?>
 						</div>
 						<div class="gig-timer-clock">
 							<span id="gt_mins">00</span>:<span id="gt_secs">00</span><span class="gig-timer-micros">:<span id="gt_mics">000</span></span>
 						</div>
 					</a>
+					<!-- =============== -->
+					<!-- <a href="/keys-list/" class="gig-timer" id="gig_timer" data-time="1563624168" data-hours="4" data-mins="02" data-secs="48" data-klickhere="kostenloser Key grade veröffentlicht<b class=&quot;time-link&quot;>hier klicken</b>" data-freekeys="kostenlose  SteamKeys">
+						<div class="gig-timer-message">
+							nächster Key in						</div>
+						<div class="gig-timer-clock">
+							<span id="gt_mins">172</span>:<span id="gt_secs">44</span><span class="gig-timer-micros">:<span id="gt_mics">297</span></span>
+						</div>
+					</a> -->
+					<!-- ============================ -->
 				</div>
 			</div><!-- .site-header-main -->
 
 			<div class="header-menu"><div class="w1200">
 				<?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
 					<button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'twentysixteen' ); ?></button>
-
+					<ul class="gig-switcher gig-switcher-menu"><?= gig_lang_switcher(); ?></ul>
 					<div id="site-header-menu" class="site-header-menu">
 						<?php if ( has_nav_menu( 'primary' ) ) : ?>
 							<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'twentysixteen' ); ?>">
 								<?php
-									wp_nav_menu( array(
+									wp_nav_menu([
 										'theme_location' => 'primary',
 										'menu_class'     => 'primary-menu',
-									 ) );
+									 ]);
 								?>
 							</nav><!-- .main-navigation -->
 						<?php endif; ?>
@@ -183,3 +198,9 @@ $template_directory_uri = get_template_directory_uri();
 		</header><!-- .site-header -->
 
 		<div id="content" class="site-content">
+<?php
+// sa(array_pop(explode('/', HOME_URL)));
+// sa(preg_replace('/.+\/(..)\/.+/', "$1", $_SERVER['REQUEST_URI']));
+// sa($_SERVER);
+// console_log(get_gig_lang());
+// console_log($_SERVER['REQUEST_URI']);
