@@ -34,9 +34,10 @@ $steam_pics_type  = esc_sql( ($_GET['type'] === 'dlc') ? 'app' : $_GET['type'] )
 $steam_appid = esc_sql( gig_to_steam($_GET['appid']) );
 $steam_lang  = esc_sql( get_gig_lang() );
 
+define('ATTR_STEAM_GAME_TITLE', 'pc spiel '.esc_attr($steam_game['title']));
 $gig_pics = array_map(function($src)
 {
-	return $src ? '<li><img class="lazyload" data-src="'.$src.'"></li>' : '';
+	return $src ? '<li><img class="lazyload" data-src="'.$src.'" alt="'.ATTR_STEAM_GAME_TITLE.'""></li>' : '';
 }, get_gig_game_img_urls($steam_game));
 
 $steam_game['desc'] = insert_adv_to_desc($steam_game['desc']);

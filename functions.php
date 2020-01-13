@@ -26,6 +26,9 @@
  */
 
 if(!defined('HOME_URL')) define('HOME_URL', home_url());
+define('GIG_TEMPLATE_DIRECTORY', get_template_directory()); // 'F:\xampp\htdocs\namenav\www\gigshop/wp-content/themes/gig-theme'
+define('GIG_TEMPLATE_DIRECTORY_URI', get_template_directory_uri()); // '/wp-content/themes/gig-theme'
+define('GIG_THEME_URI', get_stylesheet_directory_uri()); // '/wp-content/themes/gig-theme'
 
 function get_gig_lang()
 {
@@ -331,7 +334,6 @@ add_action( 'wp_head', 'twentysixteen_javascript_detection', 0 );
  *
  * @since Twenty Sixteen 1.0
  */
-define( 'GIG_THEME_URI', get_stylesheet_directory_uri() );
 function twentysixteen_scripts() {
 			// Load the stylesheets
 		if ( is_eve_page() ) {
@@ -1118,6 +1120,12 @@ function sa($array = [], $save = false){
 	print_r($array);
 	echo "</pre>";
 }
+function xa($array = [], $save = false){
+	if ($save) return '<pre>' . print_r($array, true) . '</pre>';
+	echo "<pre>";
+	var_export($array);
+	echo "</pre>";
+}
 
 
 
@@ -1362,7 +1370,7 @@ function get_gig_game_link($home_url, &$steam_game)
 	return $home_url.'/game'.GIG_LANG_PREFIX.'/?type='.$steam_game['type'].'&appid='.steam_to_gig($steam_game['appid']).'&title='.get_gig_game_url_title($steam_game['title']);
 }
 
-function get_img_alt($game)
+function get_img_alt(&$game)
 {
 	return htmlspecialchars($game['title']).' cd steam key günstig';
 }
@@ -1402,7 +1410,7 @@ function google_adv($fabrica, $to_return = false)
 			break;
 
 		case 'game-desc': // g after 2 br
-			$atts = 'style="display:block"
+			$atts = 'style="display:block;height:300px;"
 			     data-ad-slot="2031683422"
 			     data-ad-format="auto"
 			     data-full-width-responsive="true"';
@@ -1423,9 +1431,8 @@ function google_adv($fabrica, $to_return = false)
 			break;
 	}
 	$adv = '<ins class="adsbygoogle"
-			     data-ad-client="ca-pub-4009372254971170" '.
-			     $atts.
-			'></ins>
+			     data-ad-client="ca-pub-4009372254971170" 
+			     '.$atts.'></ins>
 			<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 	if($to_return) return $adv;
 	echo $adv;
@@ -2070,4 +2077,27 @@ function coupon_code_generation( $order_id, $coupon_code ){
         $post_id = $coupon->save();
     }
     return isset($post_id) && $post_id > 0;
+}
+
+
+function _esc_attr($str)
+{
+	 htmlspecialchars($str, ENT_QUOTES);
+}
+
+
+if(1 || defined('DEV_MODE')) {
+	add_action('admin_menu', function(){
+		add_menu_page( 'Дополнительные настройки сайта', 'Пульт', 'manage_options', 'pult-page', 'init_pult_page', '', 33 );
+		add_submenu_page( 'pult-page', 'Email example', 'Email example', 'manage_options', 'email-example-page', 'init_email_example_page' ); 
+
+	});
+}
+
+function init_pult_page(){
+	include_once GIG_TEMPLATE_DIRECTORY . '/inc/admin-page-pult.php';
+}
+
+function init_email_example_page() {
+	include_once GIG_TEMPLATE_DIRECTORY . '/inc/admin-page-email-example.php';
 }

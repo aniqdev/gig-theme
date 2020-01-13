@@ -28,7 +28,7 @@ $keys = $wpdb2->get_results("SELECT * FROM gift_keys WHERE public_date < $time O
   <?php foreach ($keys as $key_row): ?>
   <div class="row">
     <div class="col-sm-3"></div>
-    <div class="col-xs-7 col-sm-4"><?= $key_row['key']; ?></div>
+    <div class="col-xs-7 col-sm-4 steam-key" title="steam-key: <?= $key_row['key']; ?>"><?= $key_row['key']; ?></div>
     <div class="col-xs-5 col-sm-4" title="<?= $key_row['public_date']; ?>"><?= date('Y-m-d H:i', (string)$key_row['public_date']); ?></div>
   </div>
   <?php endforeach; ?>

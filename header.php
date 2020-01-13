@@ -145,8 +145,12 @@ $template_directory_uri = get_template_directory_uri();
 					</div>
 				</div><!-- .site-branding -->
 				<form class="col-xs-12 col-sm-4 col-md-6 aqs-search-form" id="aqs_search_form" action="<?= $home_url; ?>/gig-games-filter/">
-					<input type="text" id="aqs_search_input" name="search" value="<?= esc_attr(get_query_var('search')) ?>" class="aqs-search-input" placeholder="Search..." tabindex="4" autocomplete="off">
-					<button type="submit" id="searchsubmit" class="aqs-search-submit"><i class="dashicons dashicons-search"></i></button>
+					<div class="aqs-search-input-wrapper">
+						<input type="text" id="aqs_search_input" name="search" value="<?= esc_attr(get_query_var('search')) ?>" class="aqs-search-input" placeholder="Search..." tabindex="4" autocomplete="off">
+						<button type="submit" id="searchsubmit" class="aqs-search-submit">
+							<i class="dashicons dashicons-search"></i>
+						</button>
+					</div>
 					<div class="aqs-search-results-wrapper">
 						<div id="aqs_search_results"></div>
 						<div class="get-more">
