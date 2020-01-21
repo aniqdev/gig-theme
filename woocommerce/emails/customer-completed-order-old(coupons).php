@@ -15,44 +15,74 @@
  * @version 3.7.0
  */
 
-defined( 'ABSPATH' ) || exit;
-
-
-$cat_ids = cco_get_cat_ids_by_order($order);
-$coupon_code = ($order->get_id()+2)*3;
-if (in_array(EVE_CAT_ID, $cat_ids)) { // 
-	$generated = cco_coupon_code_generation( $coupon_code );
-}else{
-	$generated = false;
-}
-// var_dump($coupon_code);
-
-
-$heading = '<p>Hallo '.esc_html( $order->get_billing_first_name() ).',</p>
-            <p>Wir hoffen, dass Sie zufrieden geblieben sind und freuen uns Ihnen wieder behilflich sein zu dürfen.</p>';
-
-if (defined('DEV_MODE') || $generated) {
-    $heading .= '<p><span class="highl">5% Gutschein</span> für Ihre nächste Bestellung lautet <span class="highl">'.$coupon_code.'</span> (gültig für die nächsten 40 Tagen).</p>';
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
+/*
+ * @hooked WC_Emails::email_header() Output the email header
+ */
+do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
+<?php /* translators: %s: Customer first name */ ?>
+<p><?php printf( esc_html__( 'Hi %s,', 'woocommerce' ), esc_html( $order->get_billing_first_name() ) ); ?></p>
+<?php /* translators: %s: Site title */ 
+	$cat_ids = cco_get_cat_ids_by_order($order);
+	if (in_array(EVE_CAT_ID, $cat_ids)) { // 
+		$coupon_code = ($order->get_id()+2)*3;
+		$generated = cco_coupon_code_generation( $coupon_code );
+	}else{
+		$generated = false;
+	}
+?>
+<p>
+<?php if(!$generated): ?>
+	<?php esc_html_e( 'We have finished processing your order.', 'woocommerce' ); ?>
+<?php else: ?>
+	Wir hoffen, dass Sie zufrieden geblieben sind und freuen uns Ihnen wieder behilflich sein zu dürfen. 
+</p><p>
+	5% Gutschein für Ihre nächste Bestellung - <?= $coupon_code; ?>  (gültig für die nächsten 40 Tagen).
+<?php endif; ?>
+</p>
+<?php
 
-$content = wc_get_template_html( 'emails/woo-mail-2020.php', [ 'order' => $order, 'heading' => $heading, 'hide_order' => true ] );
+/*
+ * @hooked WC_Emails::order_details() Shows the order details table.
+ * @hooked WC_Structured_Data::generate_order_data() Generates structured data.
+ * @hooked WC_Structured_Data::output_structured_data() Outputs structured data.
+ * @since 2.5.0
+ */
+do_action( 'woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email );
 
-$emogrifier_class = '\\Pelago\\Emogrifier';
-if ( ! class_exists( $emogrifier_class ) ) {
-    include_once ABSPATH . 'wp-content/plugins/woocommerce/includes/libraries/class-emogrifier.php';
+/*
+ * @hooked WC_Emails::order_meta() Shows order meta data.
+ */
+do_action( 'woocommerce_email_order_meta', $order, $sent_to_admin, $plain_text, $email );
+
+/*
+ * @hooked WC_Emails::customer_details() Shows customer details
+ * @hooked WC_Emails::email_address() Shows email address
+ */
+do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_text, $email );
+
+/**
+ * Show user-defined additonal content - this is set in each email's settings.
+ */
+if ( $additional_content ) {
+	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
-try {
-    $emogrifier = new $emogrifier_class( $content );
-    $content    = $emogrifier->emogrify();
-} catch ( Exception $e ) {
-    // echo $e->getMessage();
-    // $logger = wc_get_logger();
-    // $logger->error( $e->getMessage(), array( 'source' => 'emogrifier' ) );
-}
 
-echo $content;
+/*
+ * @hooked WC_Emails::email_footer() Output the email footer
+ */
+do_action( 'woocommerce_email_footer', $email );
+
+
+
+
+
+
+
 
 
 

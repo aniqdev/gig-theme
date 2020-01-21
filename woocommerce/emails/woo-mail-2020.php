@@ -1,17 +1,30 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
+		<title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
+	</head>
+	<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+
 <style>
 .wm-container{
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 150%;
     color: #eaeaea;
 	max-width: 700px;
 	margin: auto;
 	background: #0b3658;
-    padding: 15px;
+    padding: 25px;
     border: 1px solid transparent;
 }
 .wm-container p{
 	margin: 16px 0;
+	font-size: 14px;
+}
+.wm-container p,
+.wm-container td{
+    color: #eaeaea;
 }
 .wm-container a{
 	color: #23c299
@@ -30,32 +43,35 @@
 	display: inline-block;
 	width: 32%;
 	text-decoration: none;
+	min-width: 135px;
 }
-.order-table-wrapper{
-	margin: 60px 0;
+.block-header,
+.wm-link,
+.highl{
+    color: #25c99e;
 }
 .order-table{
     width: 100%;
+	margin: 60px 0;
 }
-.order-table .tr{
-	
-}
-.order-table .td{
+.order-table .wm-td{
 	text-align: left;
 }
-.wm-small{
+.wm-container .wm-small{
 	font-size: 12px;
 	line-height: 16px;
 }
 .order_item img{
 	max-width: 120px;
 }
+.bacs-info-list{
+	padding: 5px 25px 10px;
+}
+.order_item td:first-child{
+	max-width: 20%;
+}
 </style>
-<?php
 
-$text_align = is_rtl() ? 'right' : 'left';
-
-?>
 <div class="wm-container">
 	<table class="wm-header">
 		<tr>
@@ -64,17 +80,16 @@ $text_align = is_rtl() ? 'right' : 'left';
 			</td>
 			<td>
 				<div class="wm-menu">
-					<a href="<?= HOME_URL; ?>/my-account/" target="_blank" class="wm-menu-item">Mein Account</a>
-					<a href="<?= HOME_URL; ?>/my-account/orders/" target="_blank" class="wm-menu-item">Meine Bestellungen</a>
+					<a href="<?= HOME_URL; ?>/my-account/" target="_blank" class="wm-menu-item">Mein&nbsp;Account</a>
+					<a href="<?= HOME_URL; ?>/my-account/orders/" target="_blank" class="wm-menu-item">Meine&nbsp;Bestellungen</a>
 					<a href="<?= HOME_URL; ?>" target="_blank" class="wm-menu-item">gig-games.de</a>
 				</div>
 			</td>
 		</tr>
 	</table>
-	<p>	Guten Tag,<br>
-	Vielen herzlichen Dank für Ihre Bestellung! Schreiben Sie uns bitte an support@gig-games.de wann die Übergabe stattfinden soll.</p>
-	<p>Einzelheiten Ihrer Bestellung (#<?= $order->get_order_number(); ?>)</p>
-<div class="order-table-wrapper">
+<?php echo $heading;
+if (!isset($hide_order) || $hide_order === false): ?>
+	<h3 class="block-header">Einzelheiten Ihrer Bestellung (#<?= $order->get_order_number(); ?>):</h3>
 	<table class="order-table" cellspacing="0" cellpadding="0" border="0">
 <?php
 $items = $order->get_items();
@@ -83,7 +98,7 @@ foreach ( $items as $item_id => $item ) :
 	$sku           = '';
 	$purchase_note = '';
 	$image         = '';
-	$image_size = [ 120, 120 ];
+	$image_size = [ 100, 100 ];
 	if ( is_object( $product ) ) {
 		$sku           = $product->get_sku();
 		$purchase_note = $product->get_purchase_note();
@@ -94,7 +109,7 @@ foreach ( $items as $item_id => $item ) :
 		<td>
 			<?= wp_kses_post( $image ); ?>
 		</td>
-		<td class="td">
+		<td class="wm-td">
 			<?php echo wp_kses_post( $item->get_name() );	?>
 		 x 
 			<?php
@@ -109,7 +124,7 @@ foreach ( $items as $item_id => $item ) :
 				echo $qty_display;
 			?>
 		</td>
-		<td class="td">
+		<td class="wm-td">
 			<?php echo wp_kses_post( $order->get_formatted_line_subtotal( $item ) ); ?>
 		</td>
 	</tr>
@@ -126,8 +141,8 @@ foreach ( $items as $item_id => $item ) :
 					$i++;
 					?>
 					<tr>
-						<th class="td" scope="row" colspan="2"><?php echo wp_kses_post( $total['label'] ); ?></th>
-						<td class="td"><?php echo wp_kses_post( $total['value'] ); ?></td>
+						<th class="wm-td" scope="row" colspan="2"><?php echo wp_kses_post( $total['label'] ); ?></th>
+						<td class="wm-td"><?php echo wp_kses_post( $total['value'] ); ?></td>
 					</tr>
 					<?php
 				}
@@ -135,26 +150,29 @@ foreach ( $items as $item_id => $item ) :
 			if ( $order->get_customer_note() ) {
 				?>
 				<tr>
-					<th class="td" scope="row" colspan="2"><?php esc_html_e( 'Note:', 'woocommerce' ); ?></th>
-					<td class="td"><?php echo wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ); ?></td>
+					<th class="wm-td" scope="row" colspan="2"><?php esc_html_e( 'Note:', 'woocommerce' ); ?></th>
+					<td class="wm-td"><?php echo wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ); ?></td>
 				</tr>
 				<?php
 			}
 			?>
 	</table>
-</div>
-	<p>
-		So läuft die Übergabe:<br>
-			1. Sie schreiben uns an support@gig-games.de an.<br>
-			2. Wir vereinbaren einen Termin.<br>
-			3. Sie kommen mit Ihrem Char online und die Übergabe findet statt.<br>
-	</p>
+<?php endif; ?>
+	<h3 class="block-header">So läuft die Übergabe:</h3>
+	<ul>
+		<li>1. Sie schreiben uns an <a class="wm-link" href="mailto:support@gig-games.de" target="_blank">support@gig-games.de</a> an.</li>
+		<li>2. Wir vereinbaren einen Termin.</li>
+		<li>3. Sie kommen mit Ihrem Char online und die Übergabe findet statt.</li>
+	</ul>
 	<p>Haben Sie Lust ein anderes Spiel zu spielen? <a href="https://gig-games.de/keys-list/">Hier</a> veröffentlichen wir regelmäßig zufällige kostenlose Steamschlüssel</p>
 	<p>Außerdem pflegen wir Spieldatenbank (aktuell sind es über 40000 PC Spiele). Nutzen Sie unseren <a href="https://gig-games.de/gig-games-filter/">Gamefinder</a> um vielleicht ein anderes Spiel zu finden.</p>
 	<p>
 		Mit besten grüßen <br>
-		gig-games.de Team
+		<a class="wm-link" href="http://gig-games.de" target="_blank">gig-games.de</a> Team
 	</p><br><br>
 	<p class="wm-small">Bitte beachten Sie: Diese E-Mail dient lediglich der Bestätigung des Einganges Ihrer Bestellung und stellt noch keine Annahme Ihres Angebotes auf Abschluss eines Kaufvertrages dar. Ihr Kaufvertrag für einen Artikel kommt zu Stande, wenn wir Ihre Bestellung annehmen, indem wir Ihnen eine E-Mail mit der Benachrichtigung zusenden, dass der Artikel an Sie abgeschickt wurde.</p>
 	<p class="wm-small">Dies ist eine automatisch versendete Nachricht. Bitte antworten Sie nicht auf dieses Schreiben, da die Adresse nur zur Versendung von E-Mails eingerichtet ist.</p>
 </div>
+
+	</body>
+</html>

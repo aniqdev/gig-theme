@@ -10,7 +10,7 @@ if(defined('DEV_MODE')) $order_id = 8545;
 
 $order = wc_get_order( $order_id );
 
-// sa($order);
+// sa($order->billing_first_name);
 
 // $data = $order->get_data();
 
@@ -22,5 +22,14 @@ $order = wc_get_order( $order_id );
 // 	sa($item);
 // }
 
-// include GIG_TEMPLATE_DIRECTORY.'/woocommerce/emails/customer-processing-order.php';
-include GIG_TEMPLATE_DIRECTORY.'/woocommerce/emails/customer-processing-order-test.php';
+
+
+
+echo '<h3>customer-on-hold-order</h3>';
+include GIG_TEMPLATE_DIRECTORY.'/woocommerce/emails/customer-on-hold-order.php';
+
+echo '<h3>customer-processing-order</h3>';
+include GIG_TEMPLATE_DIRECTORY.'/woocommerce/emails/customer-processing-order.php';
+
+echo '<h3>customer-completed-order</h3>';
+include GIG_TEMPLATE_DIRECTORY.'/woocommerce/emails/customer-completed-order.php';

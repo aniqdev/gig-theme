@@ -2101,3 +2101,4 @@ function init_pult_page(){
 function init_email_example_page() {
 	include_once GIG_TEMPLATE_DIRECTORY . '/inc/admin-page-email-example.php';
 }
+

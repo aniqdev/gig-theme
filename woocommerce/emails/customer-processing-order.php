@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 $heading = '<p>Hallo '.esc_html( $order->get_billing_first_name() ).',</p>
-			<p>Vielen herzlichen Dank für Ihre Bestellung! Schreiben Sie uns bitte an support@gig-games.de wann die Übergabe stattfinden soll.</p>';
+			<p>Vielen herzlichen Dank für Ihre Bestellung! Schreiben Sie uns bitte an <a class="wm-link" href="mailto:support@gig-games.de" target="_blank">support@gig-games.de</a> wann die Übergabe stattfinden soll.</p>';
 
 
 $content = wc_get_template_html( 'emails/woo-mail-2020.php', array( 'order' => $order, 'heading' => $heading ) );
