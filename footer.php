@@ -69,6 +69,66 @@
 	</div>
 </footer><!-- .site-footer .container-fluid -->
 
+<!-- <div class="aqs-cookies-modal">
+	<div class="acm-wrapper">
+		<div class="acm-inner" id="acm_inner">
+
+		</div>
+	</div>
+</div> -->
+
+<template id="acm_template_main">
+	<div class="acm-header">
+		<h3 class="-title">Мы ценим Вашу приватность!</h3>
+	</div>
+	<div class="acm-body">
+		<p>Мы и наши партнеры используем такие технологии, как файлы cookie, и обрабатываем персональные данные, такие как IP-адрес или информацию браузера, для персонализации рекламы, которую вы видите. Это помогает нам показывать вам более релевантную рекламу и улучшает вашу работу в интернете. Мы также используем эти данные для измерения результатов или настройки содержания нашего веб-сайта. Поскольку мы ценим вашу конфиденциальность, мы просим вашего разрешения на использование этих технологий. Вы всегда можете изменить или отозвать свое согласие позже в разделе "Политика конфиденциальности".</p>
+		<ul>
+			<li>Хранение информации и доступ</li>
+			<li>Персонализация</li>
+			<li>Выбор рекламы, доставка, отчетность</li>
+			<li>Подбор контента, доставка, отчетность</li>
+			<li>Измерение</li>
+		</ul>
+	</div>
+	<div class="acm-footer">
+		<div class="row acm-buttons">
+			<div class="col-xs-6"><button id="acm_accept_all">Принять все</button></div>
+			<div class="col-xs-6"><button>Отклонить все</button></div>
+		</div>
+		<div class="acm-links text-center">
+			<a href="#">Настроить выбор</a> | 
+			<a href="#">Подробнее</a>
+		</div>
+	</div>
+</template>
+
+<template id="acm_template_settings">
+	<div class="acm-header">
+		<h3 class="-title">Настроить выбор</h3>
+	</div>
+	<div class="acm-body">
+		<p>На этой странице вы найдете более подробную информацию о целях обработки данных и вендорах, которые осуществляют свою деятельность на наших веб-сайтах.</p>
+		<ul>
+			<li>Хранение информации и доступ</li>
+			<li>Персонализация</li>
+			<li>Выбор рекламы, доставка, отчетность</li>
+			<li>Подбор контента, доставка, отчетность</li>
+			<li>Измерение</li>
+		</ul>
+	</div>
+	<div class="acm-footer">
+		<div class="row acm-buttons">
+			<div class="col-xs-6"><button id="acm_accept_all">Принять все</button></div>
+			<div class="col-xs-6"><button>Отклонить все</button></div>
+		</div>
+		<div class="acm-links text-center">
+			<a href="#">Настроить выбор</a> | 
+			<a href="#">Подробнее</a>
+		</div>
+	</div>
+</template>
+
 <?php wp_footer(); ?>
 </body>
 </html>

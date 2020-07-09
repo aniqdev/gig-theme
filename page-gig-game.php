@@ -153,14 +153,16 @@ $template_directory_uri = get_template_directory_uri();
 				<td class="r-col"><?= $steam_game['lang_links']; ?></td>
 			</tr>
 			<tr>
-				<?php if($woo_id = is_in_woo($wpdb2, $steam_game['id'])): ?>
+				<?php if(false && $woo_id = is_in_woo($wpdb2, $steam_game['id'])): // off ?>
 				<td class="woo-buy-btn" colspan="2">
 					<?= do_shortcode("[add_to_cart id='$woo_id']"); ?>
 				</td>
 				<?php else: ?>	
 				<td class="game-price price">
-					<?php $our_price = get_our_price($steam_game); 
-					echo $our_price['price']; ?>
+					<?php 
+						$our_price = get_our_price($steam_game); 
+						echo $our_price['price']; 
+					?>
 				</td>
 				<td class="game-link">
 					<a href="<?= $our_price['link']; ?>" target="_blank"><?= _e('ZEIGEN','gig-theme'); ?></a>

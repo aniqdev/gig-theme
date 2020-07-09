@@ -194,3 +194,24 @@ jQuery(function($) {
 	  }
 	}
 });
+
+
+
+// cookies modal window
+jQuery(function($) {
+
+	var $acm_inner = $('#acm_inner')
+
+	var html_tpl_main = $('#acm_template_main').html();
+
+	var html_tpl_settings = $('#acm_template_settings').html();
+
+	$acm_inner.html(html_tpl_main)
+
+	$acm_inner.on('click', '#acm_accept_all', function () {
+
+		$acm_inner.html(html_tpl_settings)
+
+	})
+
+})

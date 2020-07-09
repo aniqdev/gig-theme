@@ -952,6 +952,7 @@ function woocommerce_variable_add_to_cart() {
 	global $product, $post;
 	if( $product->has_child() ) {
 	$variations = $product->get_available_variations();
+	// foreach ($variations as $key => $value) sa($value);
 	?>
 
 	<div class="eve-product__prices-wrap">
@@ -1234,7 +1235,7 @@ function get_our_price($steam_game)
 	$res = $wpdb2->get_row( "SELECT price,item_id FROM ebay_prices WHERE item_id = (select ebay_id from games where steam_link = '$steam_link' limit 1) LIMIT 1", ARRAY_A );
 
 	$ret = [];
-	if($res){
+	if(false && $res){ // off
 		$ret['price'] = '<s>€'.str_replace('.', ',', $steam_game['reg_price']).'</s>'
 		.'<br>€'.str_replace('.', ',', $res['price']);
 		$ret['link'] = get_partner_link('https://www.ebay.de/itm/'.$res['item_id']);
@@ -1244,7 +1245,7 @@ function get_our_price($steam_game)
 		if ($steam_game['reg_price'] == -1) {
 			$ret['price'] = '<span title="unbekannt" class="dashicons dashicons-lock" style="font-size: 50px;"></span>';
 		}
-		$ret['link'] = 'https://rover.ebay.com/rover/1/707-53477-19255-0/1?icep_id=114&ipn=icep&toolid=20004&campid=5338465470&mpre=https%3A%2F%2Fwww.ebay.de%2Fsch%2FPC-Videospiele%2F1249%2Fi.html%3F_from%3DR40%26_nkw%3D'.rawurlencode($steam_game['title']).'%26_dcat%3D1249%26Plattform%3DPC%26rt%3Dnc%26_trksid%3Dp2045573.m1684';
+		$ret['link'] = 'https://rover.ebay.com/rover/1/707-53477-19255-0/1?icep_id=114&ipn=icep&toolid=20004&campid=5338465470&mpre=https%3A%2F%2Fwww.ebay.de%2Fsch%2FPC-Videospiele%2F1249%2Fi.html%3F_from%3DR40%26_nkw%3D'.rawurlencode(rawurlencode($steam_game['title'])).'%26_dcat%3D1249%26Plattform%3DPC%26rt%3Dnc%26_trksid%3Dp2045573.m1684';
 		$ret['isset_our_price'] = false;
 	}
 	return $ret;

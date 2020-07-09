@@ -5314,6 +5314,64 @@ th.product-quantity{
 	margin: 0;
 }
 
+.aqs-cookies-modal{
+
+}
+
+.acm-inner{
+	position: fixed;
+	bottom: 15px;
+	right: 15px;
+	width: 400px;
+	z-index: 10;
+	padding: 15px;
+	background: #fff;
+	border-radius: 15px;
+	color: #444;
+    font-size: 14px;
+}
+
+.acm-header .-title{
+	margin-bottom: 15px;
+}
+
+.acm-buttons{
+	margin: 10px -15px;
+	text-align: center;
+}
+
+.acm-buttons button{
+    background: #082a48;
+    font-size: 14px;
+    padding: 10px 17px;
+    width: 100%;
+}
+
+.acm-links a{
+	margin: 5px 15px;
+}
+
+.boxzilla-27778{
+	background: #224c41;
+    max-width: 800px;
+}
+
+.woocommerce .woocommerce-ordering select{
+	color: #888;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

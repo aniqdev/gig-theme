@@ -725,7 +725,7 @@ var FilterApp = React.createClass({
 								<option value="rating_asc">{this.__('rating_asc')}</option>
 								<option value="price_asc">{this.__('price_asc')}</option>
 								<option value="price_desc">{this.__('price_desc')}</option>
-								<option value="advantage_desc">{this.__('advantage_desc')}</option>
+								{/*<option value="advantage_desc">{this.__('advantage_desc')}</option>*/}
 							</select>
 						</div>
 					</div>

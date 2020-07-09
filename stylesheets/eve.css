@@ -2153,7 +2153,7 @@ body.eve-template.woocommerce ul.products li.product a:hover .eve-product__img::
 
 .woocommerce div.product p.price, .woocommerce div.product span.price, .woocommerce ul.products li.product .price {
     color: #fff;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .woocommerce div.product p.price del, .woocommerce div.product span.price del, .woocommerce ul.products li.product .price del {
@@ -3122,4 +3122,15 @@ body.eve-template.woocommerce-page .related ul.products li.product {
 
 .stamp-wrapper .stamp-in {
     animation: splash 4s linear infinite;
+}
+
+.eve-top .product__price-item{
+    font-size: 18px;
+}
+.woocommerce div.product span.price{
+    width: 70px;
+    font-size: 20px;
+}
+.product__add.disp-conts .variations_form{
+    margin: auto;
 }
